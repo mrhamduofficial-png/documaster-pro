@@ -2,16 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { supabase } from '../lib/supabase';
-import {
-  FileText,
-  Layers,
-  Users,
-  HardDrive,
-  Zap,
-  Crown,
-  BarChart3,
-  Upload
-} from 'lucide-react';
+import { FileText, Layers, Users, HardDrive, Zap, Crown, ChartBar as BarChart3, Upload } from 'lucide-react';
 
 interface Document {
   id: string;

@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { PDFDocument, rgb } from 'pdf-lib';
-import { Upload, FileText, X, Download, Loader, PenTool, FileSignature } from 'lucide-react';
+import { Upload, FileText, X, Download, Loader, PenTool, Signature as FileSignature } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 
 export default function DigitalSign() {
