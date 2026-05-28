@@ -1,0 +1,46 @@
+{
+  "name": "DocuMaster - Document Management Platform",
+  "short_name": "DocuMaster",
+  "description": "Free PDF tools, document conversion, OCR scanning, and digital signatures",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "PDF Merge",
+      "short_name": "Merge",
+      "url": "/tools/pdf-merge",
+      "description": "Merge multiple PDF files"
+    },
+    {
+      "name": "PDF Split",
+      "short_name": "Split",
+      "url": "/tools/pdf-split",
+      "description": "Split PDF into pages"
+    },
+    {
+      "name": "OCR Scanner",
+      "short_name": "OCR",
+      "url": "/tools/ocr-scanner",
+      "description": "Extract text from images"
+    }
+  ],
+  "lang": "en",
+  "dir": "ltr"
+}

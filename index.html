@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="DocuMaster - All-in-one document management platform. Merge PDFs, split documents, convert files, OCR scanning, digital signatures, and more. Free tools for students, professionals, and businesses." />
+    <meta name="keywords" content="PDF merge, PDF split, document converter, OCR, digital signature, PDF tools, document management, free PDF tools" />
+    <meta name="author" content="Hamdan" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="DocuMaster" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="DocuMaster - Complete Document Management Solution" />
+    <meta property="og:description" content="Free PDF tools, document conversion, OCR scanning, and digital signatures. Premium features for teams and professionals." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://documaster.app" />
+    <meta property="og:image" content="https://images.pexels.com/photos/5900209/pexels-photo-5900209.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DocuMaster - Complete Document Management Solution" />
+    <meta name="twitter:description" content="Free PDF tools, document conversion, OCR scanning, and digital signatures." />
+    <meta name="twitter:image" content="https://images.pexels.com/photos/5900209/pexels-photo-5900209.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <title>DocuMaster - Complete Document Management Solution</title>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DocuMaster",
+      "description": "All-in-one document management platform with PDF tools, OCR, digital signatures, and more",
+      "author": {
+        "@type": "Person",
+        "name": "Hamdan"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "name": "Free Tier"
+        },
+        {
+          "@type": "Offer",
+          "price": "9.99",
+          "priceCurrency": "USD",
+          "name": "Premium Monthly"
+        }
+      ],
+      "featureList": ["PDF Merge", "PDF Split", "Document Compression", "Word to PDF", "Image Conversion", "OCR Scanning", "Digital Signatures", "Team Collaboration"]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
