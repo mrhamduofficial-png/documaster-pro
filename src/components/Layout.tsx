@@ -7,7 +7,9 @@ import {
   X,
   User,
   LogOut,
-  Zap
+  Zap,
+  Instagram,
+  Sparkles
 } from 'lucide-react';
 
 export default function Layout() {
@@ -132,24 +134,56 @@ export default function Layout() {
       {/* Footer */}
       <footer className="bg-secondary-900 text-secondary-300 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+            <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-lg font-bold text-white">DocuMaster</span>
+                <span className="text-xl font-bold text-white">DocuMaster</span>
               </div>
-              <p className="text-sm">The complete document management solution by Hamdan.</p>
+              <p className="text-sm mb-4">The complete document management platform by Hamdan. Free tools for everyone, premium features for professionals.</p>
+
+              {/* Owner Profile */}
+              <div className="bg-secondary-800 rounded-xl p-4 flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-white font-bold text-lg">H</span>
+                </div>
+                <div>
+                  <p className="text-white font-semibold">Hamdan</p>
+                  <p className="text-xs text-secondary-400">Founder & Developer</p>
+                </div>
+                <a
+                  href="https://instagram.com/mr__hamdan__official"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-auto p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  <Instagram className="w-5 h-5 text-white" />
+                </a>
+              </div>
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">Tools</h4>
+              <h4 className="text-white font-semibold mb-4">PDF Tools</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/tools/pdf-merge" className="hover:text-white transition-colors">PDF Merge</Link></li>
-                <li><Link to="/tools/pdf-split" className="hover:text-white transition-colors">PDF Split</Link></li>
+                <li><Link to="/tools/pdf-merge" className="hover:text-white transition-colors">Merge PDF</Link></li>
+                <li><Link to="/tools/pdf-split" className="hover:text-white transition-colors">Split PDF</Link></li>
+                <li><Link to="/tools/pdf-compress" className="hover:text-white transition-colors">Compress PDF</Link></li>
+                <li><Link to="/tools/pdf-watermark" className="hover:text-white transition-colors">Watermark</Link></li>
+                <li><Link to="/tools/pdf-rotate" className="hover:text-white transition-colors">Rotate PDF</Link></li>
+                <li><Link to="/tools/pdf-unlock" className="hover:text-white transition-colors">Unlock PDF</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold mb-4">Other Tools</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/tools/image-resize" className="hover:text-white transition-colors">Image Resize</Link></li>
+                <li><Link to="/tools/image-compress" className="hover:text-white transition-colors">Image Compress</Link></li>
                 <li><Link to="/tools/ocr-scanner" className="hover:text-white transition-colors">OCR Scanner</Link></li>
-                <li><Link to="/tools/digital-sign" className="hover:text-white transition-colors">Digital Sign</Link></li>
+                <li><Link to="/tools/qr-generator" className="hover:text-white transition-colors">QR Generator</Link></li>
+                <li><Link to="/tools/word-counter" className="hover:text-white transition-colors">Word Counter</Link></li>
               </ul>
             </div>
 
@@ -158,27 +192,32 @@ export default function Layout() {
               <ul className="space-y-2 text-sm">
                 <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
                 <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                <li><a href="https://instagram.com/mr__hamdan__official" target="_blank" rel="noopener" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Cookie Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
               </ul>
             </div>
           </div>
 
+          {/* Ad Placeholder */}
+          <div className="mt-8 p-4 bg-secondary-800 rounded-lg text-center">
+            <p className="text-xs text-secondary-500">Advertisement</p>
+            <div className="h-24 flex items-center justify-center text-secondary-600">
+              <Sparkles className="w-6 h-6 mr-2" />
+              Ad Space Available
+            </div>
+          </div>
+
           <div className="border-t border-secondary-800 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between">
-            <p className="text-sm">&copy; {new Date().getFullYear()} DocuMaster. All rights reserved.</p>
+            <p className="text-sm">&copy; {new Date().getFullYear()} DocuMaster. Created by Hamdan. All rights reserved.</p>
             <div className="flex items-center gap-4 mt-4 md:mt-0">
               <a href="https://twitter.com/documaster" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
+              <a href="https://instagram.com/mr__hamdan__official" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
+                <Instagram className="w-4 h-4" />
+                Instagram
+              </a>
               <a href="https://linkedin.com/company/documaster" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-              <a href="https://facebook.com/documaster" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a>
             </div>
           </div>
         </div>
@@ -187,7 +226,7 @@ export default function Layout() {
       {/* Watermark Badge */}
       <div className="fixed bottom-4 right-4 z-40">
         <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg border border-secondary-200 text-xs text-secondary-600">
-          Made with DocuMaster
+          Made with DocuMaster by Hamdan
         </div>
       </div>
     </div>

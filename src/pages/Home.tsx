@@ -10,7 +10,9 @@ import {
   Check,
   Users,
   Zap,
-  Shield
+  Shield,
+  Instagram,
+  Star
 } from 'lucide-react';
 
 const tools = [
@@ -241,6 +243,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Owner Section */}
+      <section className="py-20 bg-secondary-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div className="bg-gradient-to-r from-primary-600 to-accent-600 h-32" />
+            <div className="px-8 pb-8">
+              <div className="flex flex-col md:flex-row items-center gap-6 -mt-16">
+                <div className="w-32 h-32 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white text-5xl font-bold border-4 border-white shadow-lg">
+                  H
+                </div>
+                <div className="text-center md:text-left pt-8 md:pt-0">
+                  <h2 className="text-2xl font-bold text-secondary-900">Hamdan</h2>
+                  <p className="text-secondary-600 mb-4">Founder & Developer of DocuMaster</p>
+                  <a
+                    href="https://instagram.com/mr__hamdan__official"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white rounded-lg hover:opacity-90 transition-opacity"
+                  >
+                    <Instagram className="w-5 h-5" />
+                    Follow @mr__hamdan__official
+                  </a>
+                </div>
+              </div>
+              <p className="mt-6 text-secondary-600 text-center md:text-left">
+                "I created DocuMaster to help millions of people manage their documents efficiently.
+                Our mission is to provide professional-grade tools for free, while offering premium features
+                for those who need more power. Thank you for trusting DocuMaster!"
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Social Proof */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -248,6 +284,12 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-secondary-900 mb-4">
               Loved by Users Worldwide
             </h2>
+            <div className="flex items-center justify-center gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+              ))}
+              <span className="ml-2 text-secondary-600">50,000+ happy users</span>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
