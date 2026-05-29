@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { FileText, User, Lock, Mail, Loader, Chrome } from 'lucide-react';
+import { FileText, User, Lock, Mail, Loader, Chrome, CircleCheck as CheckCircle } from 'lucide-react';
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { signIn, signUp, signInWithGoogle, user } = useAuthStore();
+  const { signIn, signUp, signInWithGoogle, user, initialized } = useAuthStore();
 
   const [isRegister, setIsRegister] = useState(searchParams.get('register') === 'true');
   const [email, setEmail] = useState('');
@@ -18,10 +18,10 @@ export default function Auth() {
   const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) {
+    if (initialized && user) {
       navigate('/dashboard');
     }
-  }, [user, navigate]);
+  }, [user, initialized, navigate]);
 
   useEffect(() => {
     setIsRegister(searchParams.get('register') === 'true');
@@ -38,15 +38,30 @@ export default function Auth() {
         if (password.length < 6) {
           throw new Error('Password must be at least 6 characters');
         }
-        await signUp(email, password, name);
-        setSuccess('Account created successfully! You can now sign in.');
-        setIsRegister(false);
+        if (!name.trim()) {
+          throw new Error('Please enter your name');
+        }
+
+        const { error: signUpError } = await signUp(email, password, name);
+
+        if (signUpError) {
+          throw signUpError;
+        }
+
+        setSuccess('Account created successfully! Redirecting...');
+        setTimeout(() => navigate('/dashboard'), 1500);
       } else {
-        await signIn(email, password);
+        const { error: signInError } = await signIn(email, password);
+
+        if (signInError) {
+          throw signInError;
+        }
+
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -57,12 +72,26 @@ export default function Auth() {
     setError(null);
 
     try {
-      await signInWithGoogle();
+      const { error: googleError } = await signInWithGoogle();
+
+      if (googleError) {
+        throw googleError;
+      }
+      // OAuth will redirect automatically
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Google sign-in failed');
       setGoogleLoading(false);
     }
   };
+
+  // Show loading while checking auth state
+  if (!initialized) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center">
+        <Loader className="w-8 h-8 animate-spin text-primary-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4">
@@ -87,13 +116,14 @@ export default function Auth() {
           </p>
 
           {error && (
-            <div className="bg-error-50 border border-error-200 text-error-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6 flex items-center gap-2">
+              <CheckCircle className="w-5 h-5" />
               {success}
             </div>
           )}
@@ -136,6 +166,7 @@ export default function Auth() {
                     placeholder="John Doe"
                     required
                     className="input pl-10"
+                    autoComplete="name"
                   />
                 </div>
               </div>
@@ -152,6 +183,7 @@ export default function Auth() {
                   placeholder="you@example.com"
                   required
                   className="input pl-10"
+                  autoComplete="email"
                 />
               </div>
             </div>
@@ -166,21 +198,21 @@ export default function Auth() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder={isRegister ? '6+ characters' : 'Enter password'}
                   required
+                  minLength={isRegister ? 6 : undefined}
                   className="input pl-10"
+                  autoComplete={isRegister ? 'new-password' : 'current-password'}
                 />
               </div>
             </div>
 
-            {!isRegister && (
-              <div className="flex justify-end">
-                <button type="button" className="text-sm text-primary-600 hover:text-primary-700">
-                  Forgot password?
-                </button>
-              </div>
-            )}
-
-            <button type="submit" disabled={loading} className="btn btn-primary w-full">
-              {loading ? <Loader className="w-5 h-5 animate-spin" /> : isRegister ? 'Create Account' : 'Sign In'}
+            <button type="submit" disabled={loading} className="btn btn-primary w-full py-3">
+              {loading ? (
+                <><Loader className="w-5 h-5 animate-spin mr-2" />Please wait...</>
+              ) : isRegister ? (
+                'Create Account'
+              ) : (
+                'Sign In'
+              )}
             </button>
           </form>
 
@@ -189,14 +221,14 @@ export default function Auth() {
               {isRegister ? (
                 <>
                   Already have an account?{' '}
-                  <button onClick={() => setIsRegister(false)} className="text-primary-600 hover:text-primary-700 font-medium">
+                  <button onClick={() => { setIsRegister(false); setError(null); }} className="text-primary-600 hover:text-primary-700 font-medium">
                     Sign in
                   </button>
                 </>
               ) : (
                 <>
                   Don't have an account?{' '}
-                  <button onClick={() => setIsRegister(true)} className="text-primary-600 hover:text-primary-700 font-medium">
+                  <button onClick={() => { setIsRegister(true); setError(null); }} className="text-primary-600 hover:text-primary-700 font-medium">
                     Create one
                   </button>
                 </>
