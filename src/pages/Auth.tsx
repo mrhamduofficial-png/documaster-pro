@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { FileText, User, Lock, Mail, Loader } from 'lucide-react';
+import { FileText, User, Lock, Mail, Loader, Chrome } from 'lucide-react';
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { signIn, signUp, user } = useAuthStore();
+  const { signIn, signUp, signInWithGoogle, user } = useAuthStore();
 
   const [isRegister, setIsRegister] = useState(searchParams.get('register') === 'true');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -29,6 +31,7 @@ export default function Auth() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccess(null);
 
     try {
       if (isRegister) {
@@ -36,14 +39,28 @@ export default function Auth() {
           throw new Error('Password must be at least 6 characters');
         }
         await signUp(email, password, name);
+        setSuccess('Account created successfully! You can now sign in.');
+        setIsRegister(false);
       } else {
         await signIn(email, password);
+        navigate('/dashboard');
       }
-      navigate('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    setError(null);
+
+    try {
+      await signInWithGoogle();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Google sign-in failed');
+      setGoogleLoading(false);
     }
   };
 
@@ -66,9 +83,7 @@ export default function Auth() {
             {isRegister ? 'Create Account' : 'Welcome Back'}
           </h1>
           <p className="text-secondary-600 text-center mb-6">
-            {isRegister
-              ? 'Start managing your documents for free'
-              : 'Sign in to access your dashboard'}
+            {isRegister ? 'Start managing your documents for free' : 'Sign in to access your dashboard'}
           </p>
 
           {error && (
@@ -77,12 +92,41 @@ export default function Auth() {
             </div>
           )}
 
+          {success && (
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+              {success}
+            </div>
+          )}
+
+          {/* Google Sign In */}
+          <button
+            onClick={handleGoogleSignIn}
+            disabled={googleLoading}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-secondary-200 rounded-lg hover:bg-secondary-50 transition-colors mb-4 disabled:opacity-50"
+          >
+            {googleLoading ? (
+              <Loader className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <Chrome className="w-5 h-5 text-red-500" />
+                <span className="font-medium text-secondary-700">Continue with Google</span>
+              </>
+            )}
+          </button>
+
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-secondary-200" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-secondary-500">Or continue with email</span>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             {isRegister && (
               <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-1">
-                  Full Name
-                </label>
+                <label className="block text-sm font-medium text-secondary-700 mb-1">Full Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary-400" />
                   <input
@@ -98,9 +142,7 @@ export default function Auth() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-1">
-                Email Address
-              </label>
+              <label className="block text-sm font-medium text-secondary-700 mb-1">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary-400" />
                 <input
@@ -115,9 +157,7 @@ export default function Auth() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-1">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-secondary-700 mb-1">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary-400" />
                 <input
@@ -139,55 +179,32 @@ export default function Auth() {
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary w-full"
-            >
-              {loading ? (
-                <Loader className="w-5 h-5 animate-spin" />
-              ) : isRegister ? (
-                'Create Account'
-              ) : (
-                'Sign In'
-              )}
+            <button type="submit" disabled={loading} className="btn btn-primary w-full">
+              {loading ? <Loader className="w-5 h-5 animate-spin" /> : isRegister ? 'Create Account' : 'Sign In'}
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="my-6 flex items-center">
-            <div className="flex-1 border-t border-secondary-200" />
-            <span className="px-4 text-sm text-secondary-500">or</span>
-            <div className="flex-1 border-t border-secondary-200" />
+          <div className="mt-6 pt-6 border-t border-secondary-200 text-center">
+            <p className="text-secondary-600">
+              {isRegister ? (
+                <>
+                  Already have an account?{' '}
+                  <button onClick={() => setIsRegister(false)} className="text-primary-600 hover:text-primary-700 font-medium">
+                    Sign in
+                  </button>
+                </>
+              ) : (
+                <>
+                  Don't have an account?{' '}
+                  <button onClick={() => setIsRegister(true)} className="text-primary-600 hover:text-primary-700 font-medium">
+                    Create one
+                  </button>
+                </>
+              )}
+            </p>
           </div>
-
-          {/* Toggle */}
-          <p className="text-center text-secondary-600">
-            {isRegister ? (
-              <>
-                Already have an account?{' '}
-                <button
-                  onClick={() => setIsRegister(false)}
-                  className="text-primary-600 hover:text-primary-700 font-medium"
-                >
-                  Sign in
-                </button>
-              </>
-            ) : (
-              <>
-                Don't have an account?{' '}
-                <button
-                  onClick={() => setIsRegister(true)}
-                  className="text-primary-600 hover:text-primary-700 font-medium"
-                >
-                  Create one
-                </button>
-              </>
-            )}
-          </p>
         </div>
 
-        {/* Guest Link */}
         <p className="text-center mt-6">
           <Link to="/" className="text-secondary-500 hover:text-secondary-700">
             Continue as guest
