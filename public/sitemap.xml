@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Main Pages -->
   <url>
     <loc>https://documaster.app/</loc>
     <lastmod>2024-01-15</lastmod>
@@ -19,41 +24,78 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://documaster.app/about</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://documaster.app/contact</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://documaster.app/privacy</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://documaster.app/terms</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://documaster.app/blog</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <!-- PDF Tools -->
-  <url><loc>https://documaster.app/tools/pdf-merge</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/pdf-split</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/pdf-compress</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/pdf-unlock</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/pdf-watermark</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/pdf-rotate</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/pdf-page-numbers</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/word-to-pdf</loc><priority>0.7</priority></url>
+  <url><loc>https://documaster.app/tools/pdf-merge</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-split</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-compress</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-format</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-unlock</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-watermark</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-rotate</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-page-numbers</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-to-word</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/pdf-to-excel</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/word-to-pdf</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
 
   <!-- Image Tools -->
-  <url><loc>https://documaster.app/tools/image-converter</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/image-resize</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/image-compress</loc><priority>0.7</priority></url>
+  <url><loc>https://documaster.app/tools/image-converter</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/image-resize</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/image-compress</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/image-enhancer</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+
+  <!-- Document Tools -->
+  <url><loc>https://documaster.app/tools/ocr-scanner</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/digital-sign</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/document-protection</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/document-diff</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/document-translator</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
 
   <!-- Utility Tools -->
-  <url><loc>https://documaster.app/tools/ocr-scanner</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/digital-sign</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/qr-generator</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/word-counter</loc><priority>0.7</priority></url>
+  <url><loc>https://documaster.app/tools/qr-generator</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/word-counter</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/text-summarizer</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/timestamping</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/templates</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
 
   <!-- AI Tools -->
-  <url><loc>https://documaster.app/tools/text-summarizer</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/linkedin-post-generator</loc><priority>0.7</priority></url>
-  <url><loc>https://documaster.app/tools/video-converter</loc><priority>0.7</priority></url>
+  <url><loc>https://documaster.app/tools/linkedin-post-generator</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/contract-generator</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/report-generator</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://documaster.app/tools/video-converter</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
 
   <!-- Blog Posts -->
-  <url><loc>https://documaster.app/blog/how-to-merge-pdfs-free</loc><priority>0.6</priority></url>
-  <url><loc>https://documaster.app/blog/pdf-compression-tips</loc><priority>0.6</priority></url>
-  <url><loc>https://documaster.app/blog/digital-signatures-guide</loc><priority>0.6</priority></url>
-  <url><loc>https://documaster.app/blog/ocr-technology-explained</loc><priority>0.6</priority></url>
+  <url><loc>https://documaster.app/blog/how-to-merge-pdfs-free</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://documaster.app/blog/pdf-compression-tips</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://documaster.app/blog/digital-signatures-guide</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://documaster.app/blog/ocr-technology-explained</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>
