@@ -11,6 +11,7 @@ import {
   Instagram,
   Sparkles
 } from 'lucide-react';
+import Chatbot from './Chatbot';
 
 export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -226,11 +227,14 @@ export default function Layout() {
       </footer>
 
       {/* Watermark Badge */}
-      <div className="fixed bottom-4 right-4 z-40">
+      <div className="fixed bottom-4 left-4 z-40">
         <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg border border-secondary-200 text-xs text-secondary-600">
           Made with DocuMaster by Hamdan
         </div>
       </div>
+
+      {/* AI Chatbot */}
+      <Chatbot />
     </div>
   );
 }
