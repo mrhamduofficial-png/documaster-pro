@@ -1,18 +1,23 @@
 import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FileText, Upload, Download, Loader, X, FileOutput, CircleCheck as CheckCircle } from 'lucide-react';
-import { callAI } from '../../lib/ai';
+import { extractTextFromPDF, convertPDFToWord, formatFileSize } from '../../lib/ai';
 
 export default function PDFToWord() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ content: string; filename: string } | null>(null);
+  const [result, setResult] = useState<{ url: string; filename: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (selectedFile: File) => {
     if (!selectedFile.name.toLowerCase().endsWith('.pdf')) {
       setError('Please select a PDF file');
+      return;
+    }
+
+    if (selectedFile.size > 100 * 1024 * 1024) {
+      setError('File too large. Maximum 100MB allowed.');
       return;
     }
 
@@ -37,93 +42,19 @@ export default function PDFToWord() {
     setError(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      const { PDFDocument } = await import('pdf-lib');
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      const pages = pdfDoc.getPages();
+      // Extract text from PDF
+      const pdfContent = await extractTextFromPDF(file);
 
-      // Extract text content
-      let extractedContent = '';
-      for (let i = 0; i < pages.length; i++) {
-        extractedContent += `\n=== PAGE ${i + 1} ===\n\n`;
-      }
-
-      // Call AI for enhanced conversion
-      const aiResult = await callAI('convert-pdf-word', {
-        filename: file.name,
-        pages: pages.length,
-        size: file.size
-      });
-
-      // Create Word-compatible document
-      const wordContent = `
-================================================================================
-          DOCUMENT CONVERTED FROM PDF
-================================================================================
-
-Original File: ${file.name}
-Pages Extracted: ${pages.length}
-Conversion Date: ${new Date().toLocaleString()}
-File Size: ${(file.size / 1024 / 1024).toFixed(2)} MB
-
-================================================================================
-              EXTRACTED CONTENT
-================================================================================
-
-${aiResult.textContent || extractedContent}
-
-================================================================================
-              AI ANALYSIS
-================================================================================
-
-${aiResult.features?.map((f: string) => `✓ ${f}`).join('\n') || '✓ Text extraction complete\n✓ Layout preserved\n✓ Ready for editing'}
-
-================================================================================
-              DOCUMENT METADATA
-================================================================================
-
-Pages: ${pages.length}
-Format: Microsoft Word Document (.docx)
-Compatibility: MS Word, Google Docs, LibreOffice
-
-================================================================================
-
-This document was converted using DocuMaster AI.
-For better results with scanned documents, use our OCR Scanner.
-
-================================================================================
-`;
+      // Convert to Word format
+      const wordUrl = await convertPDFToWord(pdfContent, file.name);
 
       setResult({
-        content: wordContent,
-        filename: file.name.replace('.pdf', '.doc')
+        url: wordUrl,
+        filename: file.name.replace('.pdf', '.docx')
       });
-    } catch (err) {
+    } catch (err: any) {
+      setError(err.message || 'Failed to convert PDF. Please try again.');
       console.error('Conversion error:', err);
-      setError('Conversion complete! Download your document below.');
-
-      // Still provide a result even on partial error
-      const wordContent = `
-================================================================================
-          DOCUMENT CONVERTED FROM PDF
-================================================================================
-
-File: ${file.name}
-Converted: ${new Date().toLocaleString()}
-
-================================================================================
-              DOCUMENT CONTENT
-================================================================================
-
-Your PDF has been converted to Word format.
-The document is ready for editing.
-
-================================================================================
-`;
-      setResult({
-        content: wordContent,
-        filename: file.name.replace('.pdf', '.doc')
-      });
     } finally {
       setLoading(false);
     }
@@ -131,14 +62,10 @@ The document is ready for editing.
 
   const downloadResult = () => {
     if (!result) return;
-
-    const blob = new Blob([result.content], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
+    a.href = result.url;
     a.download = result.filename;
     a.click();
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -173,7 +100,7 @@ The document is ready for editing.
             />
             <Upload className="w-16 h-16 text-secondary-300 mx-auto mb-4" />
             <p className="text-xl font-medium text-secondary-700 mb-2">Drop PDF file here</p>
-            <p className="text-secondary-500">or click to browse</p>
+            <p className="text-secondary-500">or click to browse (up to 100MB)</p>
           </div>
         ) : (
           <div className="card mb-6">
@@ -183,7 +110,7 @@ The document is ready for editing.
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-secondary-900">{file.name}</h3>
-                <p className="text-sm text-secondary-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                <p className="text-sm text-secondary-500">{formatFileSize(file.size)}</p>
               </div>
               <button onClick={() => { setFile(null); setResult(null); }} className="p-2 hover:bg-secondary-100 rounded">
                 <X className="w-5 h-5 text-secondary-500" />
@@ -193,7 +120,7 @@ The document is ready for editing.
         )}
 
         {error && (
-          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">{error}</div>
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">{error}</div>
         )}
 
         {file && !result && (
@@ -207,27 +134,23 @@ The document is ready for editing.
             <div className="flex items-center gap-3 mb-4">
               <CheckCircle className="w-8 h-8 text-green-600" />
               <div>
-                <h3 className="font-bold text-secondary-900">Conversion Complete!</h3>
+                <h3 className="font-bold text-secondary-900">✓ Conversion Complete!</h3>
                 <p className="text-sm text-secondary-600">Ready for download</p>
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-lg mb-4 max-h-48 overflow-y-auto">
-              <pre className="text-sm text-secondary-700 whitespace-pre-wrap font-mono">{result.content.substring(0, 1500)}...</pre>
-            </div>
-
             <button onClick={downloadResult} className="btn btn-primary w-full">
-              <Download className="w-5 h-5 mr-2" />Download Word Document
+              <Download className="w-5 h-5 mr-2" />Download Word Document (.docx)
             </button>
           </div>
         )}
 
-        <div className="bg-secondary-50 rounded-lg p-6">
+        <div className="bg-secondary-50 rounded-lg p-6 mt-8">
           <h3 className="font-semibold text-secondary-900 mb-3">How It Works</h3>
           <ol className="space-y-2 text-secondary-600">
-            <li>1. Upload your PDF file</li>
-            <li>2. AI extracts all content</li>
-            <li>3. Download as editable Word document</li>
+            <li>✓ Upload your PDF file</li>
+            <li>✓ AI extracts all text content</li>
+            <li>✓ Download as editable Word document</li>
           </ol>
         </div>
       </div>
