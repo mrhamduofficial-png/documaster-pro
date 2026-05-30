@@ -44,6 +44,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signIn: async (email: string, password: string) => {
     try {
+      set({ loading: true });
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim().toLowerCase(),
         password
@@ -51,33 +52,33 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (error) throw error;
 
-      set({ user: data.user, session: data.session });
+      set({ user: data.user, session: data.session, loading: false });
       get().checkPremium();
 
       return { error: null };
     } catch (error) {
+      set({ loading: false });
       return { error: error instanceof Error ? error : new Error('Sign in failed') };
     }
   },
 
   signUp: async (email: string, password: string, name: string) => {
     try {
+      set({ loading: true });
       const { data, error } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password,
         options: {
           data: { name: name.trim() },
-          emailRedirectTo: window.location.origin
+          emailRedirectTo: `${window.location.origin}/auth/callback`
         }
       });
 
       if (error) throw error;
 
       if (data.user) {
-        // Wait a moment for the trigger to create the profile
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Try to create profile if trigger didn't work
         try {
           const { error: profileError } = await supabase.from('profiles').insert({
             id: data.user.id,
@@ -94,10 +95,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
       }
 
-      set({ user: data.user, session: data.session });
+      set({ user: data.user, session: data.session, loading: false });
 
       return { error: null };
     } catch (error) {
+      set({ loading: false });
       return { error: error instanceof Error ? error : new Error('Sign up failed') };
     }
   },
@@ -107,7 +109,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: `${window.location.origin}/auth/callback`
         }
       });
 
@@ -121,7 +123,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signOut: async () => {
     await supabase.auth.signOut();
-    set({ user: null, session: null, isPremium: false });
+    set({ user: null, session: null, isPremium: false, loading: false });
   },
 
   checkPremium: async () => {
@@ -154,20 +156,26 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
 // Initialize auth state listener
 supabase.auth.onAuthStateChange((event, session) => {
-  const store = useAuthStore.getState();
+  const state = useAuthStore.getState();
 
   if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-    store.loading = false;
-    store.user = session?.user ?? null;
-    store.session = session;
+    useAuthStore.setState({
+      loading: false,
+      user: session?.user ?? null,
+      session: session,
+      initialized: true
+    });
     if (session?.user) {
-      store.checkPremium();
+      state.checkPremium();
     }
   } else if (event === 'SIGNED_OUT') {
-    store.user = null;
-    store.session = null;
-    store.isPremium = false;
-    store.loading = false;
+    useAuthStore.setState({
+      user: null,
+      session: null,
+      isPremium: false,
+      loading: false,
+      initialized: true
+    });
   }
 });
 

@@ -95,6 +95,23 @@ export default function Pricing() {
       <Helmet>
         <title>Pricing Plans - Free & Premium | DocuMaster</title>
         <meta name="description" content="DocuMaster pricing: Free plan with basic PDF tools, Premium for professionals, and Team plans for businesses. Start free today!" />
+        <link rel="canonical" href="https://documaster.app/pricing" />
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "DocuMaster Pricing",
+            "description": "Pricing plans for DocuMaster document management tools",
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": [
+                {"@type": "Product", "name": "Free Plan", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}},
+                {"@type": "Product", "name": "Premium Plan", "offers": {"@type": "Offer", "price": "9.99", "priceCurrency": "USD"}},
+                {"@type": "Product", "name": "Team Plan", "offers": {"@type": "Offer", "price": "29.99", "priceCurrency": "USD"}}
+              ]
+            }
+          }
+        `}</script>
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

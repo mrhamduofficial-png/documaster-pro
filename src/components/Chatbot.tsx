@@ -7,6 +7,10 @@ interface Message {
   content: string;
 }
 
+// Rate limiting: max 10 messages per minute
+const RATE_LIMIT = 10;
+const RATE_WINDOW = 60000; // 1 minute
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -17,15 +21,40 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [rateLimited, setRateLimited] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messageTimestampsRef = useRef<number[]>([]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const checkRateLimit = (): boolean => {
+    const now = Date.now();
+    const timestamps = messageTimestampsRef.current.filter(t => now - t < RATE_WINDOW);
+    messageTimestampsRef.current = timestamps;
+
+    if (timestamps.length >= RATE_LIMIT) {
+      setRateLimited(true);
+      setTimeout(() => setRateLimited(false), RATE_WINDOW);
+      return false;
+    }
+
+    messageTimestampsRef.current.push(now);
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || loading) return;
+    if (!input.trim() || loading || rateLimited) return;
+
+    if (!checkRateLimit()) {
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: "You're sending messages too quickly. Please wait a moment."
+      }]);
+      return;
+    }
 
     const userMessage = input.trim();
     setInput('');
