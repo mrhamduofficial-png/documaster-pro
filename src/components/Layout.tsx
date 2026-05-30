@@ -2,20 +2,32 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../store/authStore';
 import {
-  FileText,
+  Zap,
   Menu,
   X,
   User,
   LogOut,
-  Zap,
   Instagram,
-  Sparkles
+  ChevronRight,
+  FileText,
+  Image,
+  QrCode,
+  Hash,
+  Layers,
+  Scissors,
+  ScanLine,
+  Globe,
+  Twitter,
+  Linkedin,
+  Moon,
+  Sun
 } from 'lucide-react';
 import Chatbot from './Chatbot';
 
 export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const { user, signOut, isPremium } = useAuthStore();
   const location = useLocation();
 
@@ -29,6 +41,10 @@ export default function Layout() {
     setMobileMenuOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDark);
+  }, [isDark]);
+
   const navLinks = [
     { to: '/tools', label: 'Tools' },
     { to: '/pricing', label: 'Pricing' },
@@ -37,44 +53,86 @@ export default function Layout() {
     { to: '/contact', label: 'Contact' }
   ];
 
+  const toolCategories = [
+    {
+      title: 'PDF Tools',
+      links: [
+        { to: '/tools/pdf-merge', label: 'Merge PDF', icon: Layers },
+        { to: '/tools/pdf-split', label: 'Split PDF', icon: Scissors },
+        { to: '/tools/pdf-compress', label: 'Compress PDF', icon: FileText },
+        { to: '/tools/pdf-to-word', label: 'PDF to Word', icon: FileText },
+        { to: '/tools/word-to-pdf', label: 'Word to PDF', icon: FileText }
+      ]
+    },
+    {
+      title: 'Image Tools',
+      links: [
+        { to: '/tools/image-compress', label: 'Image Compressor', icon: Image },
+        { to: '/tools/image-converter', label: 'Image Converter', icon: Image },
+        { to: '/tools/image-resize', label: 'Image Resize', icon: Image }
+      ]
+    },
+    {
+      title: 'Utility Tools',
+      links: [
+        { to: '/tools/qr-generator', label: 'QR Generator', icon: QrCode },
+        { to: '/tools/word-counter', label: 'Word Counter', icon: Hash },
+        { to: '/tools/ocr-scanner', label: 'OCR Scanner', icon: ScanLine },
+        { to: '/tools/document-translator', label: 'Translator', icon: Globe }
+      ]
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* Header */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/95 backdrop-blur-xl border-b border-slate-800' : 'bg-transparent'}`}>
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+          <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-accent-600 rounded-xl flex items-center justify-center">
-                <FileText className="w-6 h-6 text-white" />
+            <Link to="/" className="flex items-center gap-3 group" aria-label="DocuSprint Home">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:shadow-indigo-500/40 transition-shadow">
+                <Zap className="w-6 h-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-secondary-900">DocuMaster</span>
+              <span className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">DocuSprint</span>
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-1" aria-label="Primary">
               {navLinks.map(link => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`text-sm font-medium transition-colors ${location.pathname === link.to ? 'text-primary-600' : 'text-secondary-600 hover:text-secondary-900'}`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    location.pathname === link.to 
+                      ? 'text-white bg-slate-800' 
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                  }`}
                 >
                   {link.label}
                 </Link>
               ))}
             </nav>
 
-            {/* Auth Buttons */}
-            <div className="hidden md:flex items-center gap-4">
+            {/* Right Side */}
+            <div className="hidden lg:flex items-center gap-3">
+              <button
+                onClick={() => setIsDark(!isDark)}
+                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              
               {user ? (
                 <>
                   {isPremium && (
-                    <span className="flex items-center gap-1 text-sm text-accent-600 bg-accent-50 px-3 py-1 rounded-full">
+                    <span className="flex items-center gap-1.5 text-sm text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
                       <Zap className="w-4 h-4" />
                       Premium
                     </span>
                   )}
-                  <Link to="/dashboard" className="btn btn-secondary">
+                  <Link to="/dashboard" className="btn btn-ghost">
                     <User className="w-4 h-4 mr-2" />
                     Dashboard
                   </Link>
@@ -85,33 +143,45 @@ export default function Layout() {
                 </>
               ) : (
                 <>
-                  <Link to="/auth" className="btn btn-secondary">Sign In</Link>
-                  <Link to="/auth?register=true" className="btn btn-primary">Get Started</Link>
+                  <Link to="/auth" className="btn btn-ghost">Sign In</Link>
+                  <Link to="/auth?register=true" className="btn btn-primary">
+                    Get Started
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Link>
                 </>
               )}
             </div>
 
             {/* Mobile Menu Button */}
-            <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <button 
+              className="lg:hidden p-2 rounded-lg hover:bg-slate-800 transition-colors" 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+            >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-        </div>
+        </nav>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-secondary-200">
-            <div className="px-4 py-4 space-y-2">
+          <div className="lg:hidden bg-slate-900 border-t border-slate-800">
+            <div className="px-4 py-6 space-y-2">
               {navLinks.map(link => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`block px-4 py-2 rounded-lg ${location.pathname === link.to ? 'bg-primary-50 text-primary-600' : 'text-secondary-600'}`}
+                  className={`block px-4 py-3 rounded-xl font-medium ${
+                    location.pathname === link.to 
+                      ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' 
+                      : 'text-slate-300 hover:bg-slate-800'
+                  }`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-4 space-y-2">
+              <div className="pt-4 space-y-2 border-t border-slate-800 mt-4">
                 {user ? (
                   <>
                     <Link to="/dashboard" className="btn btn-secondary w-full">Dashboard</Link>
@@ -130,97 +200,114 @@ export default function Layout() {
       </header>
 
       {/* Main Content */}
-      <main className="pt-16">
+      <main className="pt-16 lg:pt-20">
         <Outlet />
       </main>
 
       {/* Footer */}
-      <footer className="bg-secondary-900 text-secondary-300 mt-20">
+      <footer className="bg-slate-900/50 border-t border-slate-800 mt-20" role="contentinfo">
+        {/* Top Ad Slot */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="ads-slot">
+            <p className="text-xs text-slate-500 mb-2">Advertisement</p>
+            <div className="h-24 flex items-center justify-center text-slate-600">
+              <span>Ad Space Available</span>
+            </div>
+          </div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-white" />
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
+            {/* Brand */}
+            <div className="col-span-2">
+              <Link to="/" className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-xl font-bold text-white">DocuMaster</span>
-              </div>
-              <p className="text-sm mb-4">The complete document management platform by Hamdan. Free tools for everyone, premium features for professionals.</p>
+                <span className="text-xl font-bold text-white">DocuSprint</span>
+              </Link>
+              <p className="text-sm text-slate-400 mb-6 leading-relaxed">
+                The complete web utility platform by Hamdan. Free tools for everyone, premium features for professionals. Fast, secure, and no signup required.
+              </p>
 
               {/* Owner Profile */}
-              <div className="bg-secondary-800 rounded-xl p-4 flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="bg-slate-800/50 rounded-xl p-4 flex items-center gap-3 border border-slate-700/50">
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-bold text-lg">H</span>
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="text-white font-semibold">Hamdan</p>
-                  <p className="text-xs text-secondary-400">Founder & Developer</p>
+                  <p className="text-xs text-slate-400">Founder & Developer</p>
                 </div>
                 <a
                   href="https://instagram.com/mr__hamdan__official"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="ml-auto p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg hover:opacity-90 transition-opacity"
+                  className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg hover:opacity-90 transition-opacity"
+                  aria-label="Follow on Instagram"
                 >
                   <Instagram className="w-5 h-5 text-white" />
                 </a>
               </div>
             </div>
 
+            {/* PDF Tools */}
             <div>
               <h4 className="text-white font-semibold mb-4">PDF Tools</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/tools/pdf-merge" className="hover:text-white transition-colors">Merge PDF</Link></li>
-                <li><Link to="/tools/pdf-split" className="hover:text-white transition-colors">Split PDF</Link></li>
-                <li><Link to="/tools/pdf-compress" className="hover:text-white transition-colors">Compress PDF</Link></li>
-                <li><Link to="/tools/pdf-watermark" className="hover:text-white transition-colors">Watermark</Link></li>
-                <li><Link to="/tools/pdf-rotate" className="hover:text-white transition-colors">Rotate PDF</Link></li>
-                <li><Link to="/tools/pdf-unlock" className="hover:text-white transition-colors">Unlock PDF</Link></li>
+              <ul className="space-y-2.5 text-sm">
+                {toolCategories[0].links.map(link => (
+                  <li key={link.to}>
+                    <Link to={link.to} className="text-slate-400 hover:text-indigo-400 transition-colors flex items-center gap-2">
+                      <link.icon className="w-4 h-4" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
+            {/* Utility Tools */}
             <div>
-              <h4 className="text-white font-semibold mb-4">Other Tools</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/tools/image-resize" className="hover:text-white transition-colors">Image Resize</Link></li>
-                <li><Link to="/tools/image-compress" className="hover:text-white transition-colors">Image Compress</Link></li>
-                <li><Link to="/tools/ocr-scanner" className="hover:text-white transition-colors">OCR Scanner</Link></li>
-                <li><Link to="/tools/qr-generator" className="hover:text-white transition-colors">QR Generator</Link></li>
-                <li><Link to="/tools/word-counter" className="hover:text-white transition-colors">Word Counter</Link></li>
+              <h4 className="text-white font-semibold mb-4">Utility Tools</h4>
+              <ul className="space-y-2.5 text-sm">
+                {toolCategories[2].links.map(link => (
+                  <li key={link.to}>
+                    <Link to={link.to} className="text-slate-400 hover:text-indigo-400 transition-colors flex items-center gap-2">
+                      <link.icon className="w-4 h-4" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
+            {/* Company */}
             <div>
               <h4 className="text-white font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-                <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
-                <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-                <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-                <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link to="/about" className="text-slate-400 hover:text-indigo-400 transition-colors">About Us</Link></li>
+                <li><Link to="/pricing" className="text-slate-400 hover:text-indigo-400 transition-colors">Pricing</Link></li>
+                <li><Link to="/blog" className="text-slate-400 hover:text-indigo-400 transition-colors">Blog</Link></li>
+                <li><Link to="/contact" className="text-slate-400 hover:text-indigo-400 transition-colors">Contact</Link></li>
+                <li><Link to="/privacy" className="text-slate-400 hover:text-indigo-400 transition-colors">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="text-slate-400 hover:text-indigo-400 transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
 
-          {/* Ad Placeholder */}
-          <div className="mt-8 p-4 bg-secondary-800 rounded-lg text-center">
-            <p className="text-xs text-secondary-500">Advertisement</p>
-            <div className="h-24 flex items-center justify-center text-secondary-600">
-              <Sparkles className="w-6 h-6 mr-2" />
-              Ad Space Available
-            </div>
-          </div>
-
-          <div className="border-t border-secondary-800 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between">
-            <p className="text-sm">&copy; {new Date().getFullYear()} DocuMaster. Created by Hamdan. All rights reserved.</p>
-            <div className="flex items-center gap-4 mt-4 md:mt-0">
-              <a href="https://twitter.com/documaster" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
-              <a href="https://instagram.com/mr__hamdan__official" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
-                <Instagram className="w-4 h-4" />
-                Instagram
+          {/* Bottom Bar */}
+          <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} DocuSprint. Created by Hamdan. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <a href="https://twitter.com/docusprint" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-indigo-400 transition-colors" aria-label="Twitter">
+                <Twitter className="w-5 h-5" />
               </a>
-              <a href="https://linkedin.com/company/documaster" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+              <a href="https://instagram.com/mr__hamdan__official" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-pink-400 transition-colors" aria-label="Instagram">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="https://linkedin.com/company/docusprint" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors" aria-label="LinkedIn">
+                <Linkedin className="w-5 h-5" />
+              </a>
             </div>
           </div>
         </div>
@@ -228,8 +315,9 @@ export default function Layout() {
 
       {/* Watermark Badge */}
       <div className="fixed bottom-4 left-4 z-40">
-        <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg border border-secondary-200 text-xs text-secondary-600">
-          Made with DocuMaster by Hamdan
+        <div className="bg-slate-800/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-lg border border-slate-700 text-xs text-slate-400 flex items-center gap-2">
+          <Zap className="w-3 h-3 text-indigo-400" />
+          Powered by DocuSprint
         </div>
       </div>
 

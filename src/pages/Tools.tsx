@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Layers, Scissors, FileText, Image, ScanLine, PenTool, FileOutput, Users, CloudLightning, Lock, Droplets, RotateCw, Hash, Maximize2, Minimize2, Video, QrCode, Sparkles, Globe, ChartBar as FileBarChart, FileCheck, Shield, Clock, LayoutGrid as Layout, Diff } from 'lucide-react';
+import { 
+  Layers, Scissors, FileText, Image, ScanLine, PenTool, FileOutput, 
+  Users, CloudLightning, Lock, Droplets, RotateCw, Hash, Maximize2, 
+  Minimize2, Video, QrCode, Sparkles, Globe, ChartBar as FileBarChart, 
+  FileCheck, Shield, Clock, LayoutGrid as Layout, Diff, Search
+} from 'lucide-react';
+import { useState } from 'react';
 
 const pdfTools = [
   { icon: Layers, title: 'PDF Merge', description: 'Combine multiple PDF files into one document', href: '/tools/pdf-merge', free: true },
@@ -18,7 +24,7 @@ const pdfTools = [
 const imageTools = [
   { icon: Image, title: 'Image Converter', description: 'Convert images between PNG, JPG, WebP formats', href: '/tools/image-converter', free: true },
   { icon: Maximize2, title: 'Image Resize', description: 'Resize images to any dimension', href: '/tools/image-resize', free: true },
-  { icon: Minimize2, title: 'Image Compress', description: 'Reduce image file size for web', href: '/tools/image-compress', free: true },
+  { icon: Minimize2, title: 'Image Compressor', description: 'Reduce image file size for web optimization', href: '/tools/image-compress', free: true },
   { icon: Sparkles, title: 'AI Image Enhancer', description: 'Upscale images to HD, 4K, 8K quality', href: '/tools/image-enhancer', free: true }
 ];
 
@@ -48,145 +54,228 @@ const premiumTools = [
 ];
 
 export default function Tools() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const allTools = [...pdfTools, ...imageTools, ...utilityTools, ...aiTools];
+  
+  const filteredTools = searchQuery 
+    ? allTools.filter(tool => 
+        tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        tool.description.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : null;
+
   return (
-    <div className="py-12">
+    <div className="py-12 bg-slate-950">
       <Helmet>
-        <title>Free PDF & Document Tools - 30+ Tools | DocuMaster</title>
-        <meta name="description" content="30+ free document tools: PDF merge, split, compress, convert, OCR, image converter, QR generator, AI tools, and more. No signup required. Professional document management." />
-        <meta name="keywords" content="PDF tools, PDF merge, PDF split, PDF compress, PDF converter, OCR scanner, image converter, document tools, free PDF tools, online PDF editor" />
-        <meta property="og:title" content="Free PDF & Document Tools - DocuMaster" />
-        <meta property="og:description" content="30+ free document tools for everyone. Professional document management without the cost." />
+        <title>Free PDF & Document Tools - 30+ Web Utility Tools | DocuSprint</title>
+        <meta name="description" content="30+ free web utility tools: PDF merge, split, compress, convert, OCR, image compressor, QR generator, word counter, and more. No signup required. Fast and secure." />
+        <meta name="keywords" content="PDF tools, PDF merge, PDF split, PDF compress, PDF converter, OCR scanner, image compressor, QR code generator, word counter, free online tools" />
+        <meta property="og:title" content="Free PDF & Document Tools - DocuSprint" />
+        <meta property="og:description" content="30+ free web utility tools for everyone. Professional document management without the cost." />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://documaster.app/tools" />
+        <link rel="canonical" href="https://docusprint.app/tools" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-bold text-secondary-900 mb-4">
-            30+ Free Document Tools
+        <header className="text-center mb-12">
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+            30+ Free Web Utility Tools
           </h1>
-          <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
-            Professional document tools for everyone. No signup required.
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
+            Professional document and web tools for everyone. No signup required.
             Your files are encrypted and automatically deleted after processing.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
-            <span className="px-4 py-2 bg-accent-100 text-accent-700 text-sm rounded-full font-medium">100% Free</span>
-            <span className="px-4 py-2 bg-primary-100 text-primary-700 text-sm rounded-full font-medium">No Watermark</span>
-            <span className="px-4 py-2 bg-secondary-100 text-secondary-700 text-sm rounded-full font-medium">Bank-Level Security</span>
-            <span className="px-4 py-2 bg-green-100 text-green-700 text-sm rounded-full font-medium">Mobile Friendly</span>
+          
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+            <input
+              type="text"
+              placeholder="Search tools..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="input pl-12"
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+            <span className="px-4 py-2 bg-emerald-500/10 text-emerald-400 text-sm rounded-full font-medium border border-emerald-500/20">100% Free</span>
+            <span className="px-4 py-2 bg-indigo-500/10 text-indigo-400 text-sm rounded-full font-medium border border-indigo-500/20">No Watermark</span>
+            <span className="px-4 py-2 bg-purple-500/10 text-purple-400 text-sm rounded-full font-medium border border-purple-500/20">Bank-Level Security</span>
+            <span className="px-4 py-2 bg-cyan-500/10 text-cyan-400 text-sm rounded-full font-medium border border-cyan-500/20">Mobile Friendly</span>
+          </div>
+        </header>
+
+        {/* Top Ad Slot */}
+        <div className="ads-slot mb-12">
+          <p className="text-xs text-slate-500 mb-1">Advertisement</p>
+          <div className="h-24 flex items-center justify-center text-slate-600">
+            <span>Ad Space - Top Banner</span>
           </div>
         </div>
 
+        {/* Search Results */}
+        {filteredTools && (
+          <section className="mb-12">
+            <h2 className="text-xl font-bold text-white mb-6">
+              Search Results ({filteredTools.length})
+            </h2>
+            {filteredTools.length > 0 ? (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {filteredTools.map((tool) => (
+                  <Link
+                    key={tool.href}
+                    to={tool.href}
+                    className="tool-card"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <tool.icon className="w-5 h-5 text-white" />
+                      </div>
+                      {tool.free && <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-medium border border-emerald-500/20">Free</span>}
+                    </div>
+                    <h3 className="font-semibold text-white mb-1">{tool.title}</h3>
+                    <p className="text-sm text-slate-400">{tool.description}</p>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="text-slate-500 text-center py-8">No tools found matching "{searchQuery}"</p>
+            )}
+          </section>
+        )}
+
         {/* PDF Tools */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center gap-2">
-            <FileText className="w-6 h-6 text-primary-600" />
-            PDF Tools
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {pdfTools.map((tool) => (
-              <Link
-                key={tool.href}
-                to={tool.href}
-                className="card hover:shadow-lg hover:border-primary-200 transition-all duration-300 group"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <tool.icon className="w-5 h-5 text-white" />
-                  </div>
-                  {tool.free && <span className="text-xs bg-accent-100 text-accent-700 px-2 py-0.5 rounded font-medium">Free</span>}
+        {!filteredTools && (
+          <>
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="font-semibold text-secondary-900 mb-1">{tool.title}</h3>
-                <p className="text-sm text-secondary-600">{tool.description}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
+                PDF Tools
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {pdfTools.map((tool) => (
+                  <Link
+                    key={tool.href}
+                    to={tool.href}
+                    className="tool-card"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <tool.icon className="w-5 h-5 text-white" />
+                      </div>
+                      {tool.free && <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-medium border border-emerald-500/20">Free</span>}
+                    </div>
+                    <h3 className="font-semibold text-white mb-1">{tool.title}</h3>
+                    <p className="text-sm text-slate-400">{tool.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
 
-        {/* Image Tools */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center gap-2">
-            <Image className="w-6 h-6 text-pink-600" />
-            Image Tools
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {imageTools.map((tool) => (
-              <Link
-                key={tool.href}
-                to={tool.href}
-                className="card hover:shadow-lg hover:border-pink-200 transition-all duration-300 group"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <tool.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-xs bg-accent-100 text-accent-700 px-2 py-0.5 rounded font-medium">Free</span>
+            {/* Image Tools */}
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center">
+                  <Image className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="font-semibold text-secondary-900 mb-1">{tool.title}</h3>
-                <p className="text-sm text-secondary-600">{tool.description}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
+                Image Tools
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {imageTools.map((tool) => (
+                  <Link
+                    key={tool.href}
+                    to={tool.href}
+                    className="tool-card"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <tool.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-medium border border-emerald-500/20">Free</span>
+                    </div>
+                    <h3 className="font-semibold text-white mb-1">{tool.title}</h3>
+                    <p className="text-sm text-slate-400">{tool.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
 
-        {/* Utility Tools */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center gap-2">
-            <Hash className="w-6 h-6 text-orange-600" />
-            Utility Tools
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {utilityTools.map((tool) => (
-              <Link
-                key={tool.href}
-                to={tool.href}
-                className="card hover:shadow-lg hover:border-orange-200 transition-all duration-300 group"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <tool.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-xs bg-accent-100 text-accent-700 px-2 py-0.5 rounded font-medium">Free</span>
+            {/* Utility Tools */}
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center">
+                  <Hash className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="font-semibold text-secondary-900 mb-1">{tool.title}</h3>
-                <p className="text-sm text-secondary-600">{tool.description}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
+                Utility Tools
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {utilityTools.map((tool) => (
+                  <Link
+                    key={tool.href}
+                    to={tool.href}
+                    className="tool-card"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <tool.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-medium border border-emerald-500/20">Free</span>
+                    </div>
+                    <h3 className="font-semibold text-white mb-1">{tool.title}</h3>
+                    <p className="text-sm text-slate-400">{tool.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
 
-        {/* AI Tools */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-violet-600" />
-            AI-Powered Tools
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {aiTools.map((tool) => (
-              <Link
-                key={tool.href}
-                to={tool.href}
-                className="card hover:shadow-lg hover:border-violet-200 transition-all duration-300 group"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <tool.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-xs bg-violet-100 text-violet-700 px-2 py-0.5 rounded font-medium">AI</span>
+            {/* AI Tools */}
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="font-semibold text-secondary-900 mb-1">{tool.title}</h3>
-                <p className="text-sm text-secondary-600">{tool.description}</p>
-              </Link>
-            ))}
+                AI-Powered Tools
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {aiTools.map((tool) => (
+                  <Link
+                    key={tool.href}
+                    to={tool.href}
+                    className="tool-card"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <tool.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="text-xs bg-violet-500/10 text-violet-400 px-2 py-0.5 rounded-full font-medium border border-violet-500/20">AI</span>
+                    </div>
+                    <h3 className="font-semibold text-white mb-1">{tool.title}</h3>
+                    <p className="text-sm text-slate-400">{tool.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* Sidebar Ad */}
+        <div className="ads-slot mb-12">
+          <p className="text-xs text-slate-500 mb-1">Advertisement</p>
+          <div className="h-24 flex items-center justify-center text-slate-600">
+            <span>Ad Space - Mid Page</span>
           </div>
-        </section>
+        </div>
 
         {/* Premium Features */}
-        <section className="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-8 mb-16">
+        <section className="card mb-16 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border-indigo-500/20">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-secondary-900 mb-2">Premium Features</h2>
-            <p className="text-secondary-600">Unlock powerful tools with a DocuMaster Premium subscription</p>
+            <h2 className="text-2xl font-bold text-white mb-2">Premium Features</h2>
+            <p className="text-slate-400">Unlock powerful tools with a DocuSprint Premium subscription</p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -195,21 +284,21 @@ export default function Tools() {
                 <Link
                   key={tool.title}
                   to={tool.href}
-                  className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
+                  className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50 hover:border-indigo-500/50 transition-colors"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-accent-600 rounded-xl flex items-center justify-center mb-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mb-3">
                     <tool.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="font-semibold text-secondary-900 mb-1">{tool.title}</h3>
-                  <p className="text-sm text-secondary-600">{tool.description}</p>
+                  <h3 className="font-semibold text-white mb-1">{tool.title}</h3>
+                  <p className="text-sm text-slate-400">{tool.description}</p>
                 </Link>
               ) : (
-                <div key={tool.title} className="bg-white rounded-xl p-5 shadow-sm">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-accent-600 rounded-xl flex items-center justify-center mb-3">
+                <div key={tool.title} className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
+                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mb-3">
                     <tool.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="font-semibold text-secondary-900 mb-1">{tool.title}</h3>
-                  <p className="text-sm text-secondary-600">{tool.description}</p>
+                  <h3 className="font-semibold text-white mb-1">{tool.title}</h3>
+                  <p className="text-sm text-slate-400">{tool.description}</p>
                 </div>
               )
             ))}
@@ -223,8 +312,8 @@ export default function Tools() {
         </section>
 
         {/* FAQ */}
-        <section className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-secondary-900 text-center mb-8">
+        <section className="max-w-3xl mx-auto" itemScope itemType="https://schema.org/FAQPage">
+          <h2 className="text-2xl font-bold text-white text-center mb-8">
             Frequently Asked Questions
           </h2>
 
@@ -235,11 +324,24 @@ export default function Tools() {
               { q: 'Is there a file size limit?', a: 'Free users can process files up to 10 MB. Premium users have 100 MB limit per file.' },
               { q: 'Do I need to create an account?', a: 'No account needed for basic tools. Sign up to save documents, track usage, and access premium features.' },
               { q: 'How many operations can I do per day?', a: 'Free users have 10 operations per day. Premium users have unlimited access to all tools.' },
-              { q: 'Which devices are supported?', a: 'DocuMaster works on all devices - desktop, tablet, and mobile. No software installation required.' }
+              { q: 'Which devices are supported?', a: 'DocuSprint works on all devices - desktop, tablet, and mobile. No software installation required.' }
             ].map((faq) => (
-              <div key={faq.q} className="card">
-                <h3 className="font-semibold text-secondary-900 mb-2">{faq.q}</h3>
-                <p className="text-secondary-600">{faq.a}</p>
+              <div 
+                key={faq.q} 
+                className="card"
+                itemScope 
+                itemProp="mainEntity" 
+                itemType="https://schema.org/Question"
+              >
+                <h3 className="font-semibold text-white mb-2" itemProp="name">{faq.q}</h3>
+                <p 
+                  className="text-slate-400"
+                  itemScope 
+                  itemProp="acceptedAnswer" 
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">{faq.a}</span>
+                </p>
               </div>
             ))}
           </div>
