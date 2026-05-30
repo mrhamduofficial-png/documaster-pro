@@ -1,5 +1,5 @@
-# Robots.txt for DocuMaster
-# https://documaster.app
+# Robots.txt for DocuSprint
+# https://docusprint.app
 
 User-agent: *
 Allow: /
@@ -8,7 +8,7 @@ Disallow: /dashboard
 Disallow: /auth
 
 # Sitemap
-Sitemap: https://documaster.app/sitemap.xml
+Sitemap: https://docusprint.app/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

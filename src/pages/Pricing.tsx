@@ -85,7 +85,7 @@ export default function Pricing() {
 
     if (plan !== 'Free' && amounts[plan]) {
       // Create PayPal payment URL
-      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(paypalEmail)}&amount=${amounts[plan]}&currency_code=USD&item_name=DocuMaster ${plan} ${billingCycle === 'yearly' ? 'Yearly' : 'Monthly'} Subscription&return=${encodeURIComponent(window.location.origin + '/dashboard?payment=success')}&cancel_return=${encodeURIComponent(window.location.origin + '/pricing')}`;
+      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(paypalEmail)}&amount=${amounts[plan]}&currency_code=USD&item_name=DocuSprint ${plan} ${billingCycle === 'yearly' ? 'Yearly' : 'Monthly'} Subscription&return=${encodeURIComponent(window.location.origin + '/dashboard?payment=success')}&cancel_return=${encodeURIComponent(window.location.origin + '/pricing')}`;
       window.open(paypalUrl, '_blank');
     }
   };
@@ -93,15 +93,15 @@ export default function Pricing() {
   return (
     <div className="py-12">
       <Helmet>
-        <title>Pricing Plans - Free & Premium | DocuMaster</title>
-        <meta name="description" content="DocuMaster pricing: Free plan with basic PDF tools, Premium for professionals, and Team plans for businesses. Start free today!" />
-        <link rel="canonical" href="https://documaster.app/pricing" />
+        <title>Pricing Plans - Free & Premium | DocuSprint</title>
+        <meta name="description" content="DocuSprint pricing: Free plan with basic PDF tools, Premium for professionals, and Team plans for businesses. Start free today!" />
+        <link rel="canonical" href="https://docusprint.app/pricing" />
         <script type="application/ld+json">{`
           {
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "DocuMaster Pricing",
-            "description": "Pricing plans for DocuMaster document management tools",
+            "name": "DocuSprint Pricing",
+            "description": "Pricing plans for DocuSprint document management tools",
             "mainEntity": {
               "@type": "ItemList",
               "itemListElement": [
