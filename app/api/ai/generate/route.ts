@@ -1,8 +1,7 @@
-import { streamText, Output } from 'ai'
-import { z } from 'zod'
+import { generateText } from 'ai'
 
 export async function POST(req: Request) {
-  const { prompt, type } = await req.json()
+  const { prompt, type, text, options } = await req.json()
 
   const systemPrompts: Record<string, string> = {
     write: `You are a professional writing assistant. Help users create compelling content including:
@@ -13,11 +12,9 @@ export async function POST(req: Request) {
 - Product descriptions
 Provide well-structured, engaging content that matches the requested tone and style.`,
     
-    summarize: `You are a text summarization expert. Analyze the provided text and create:
-- A concise summary capturing key points
-- Main themes and ideas
-- Important facts and figures
-Keep summaries clear, accurate, and significantly shorter than the original.`,
+    summarize: `You are a text summarization expert. Create ${options?.length || 'medium'}-length summaries.
+${options?.style === 'bullet' ? 'Use bullet points for the summary.' : 'Write in paragraph form.'}
+Capture key points, main themes, and important facts while being significantly shorter than the original.`,
     
     translate: `You are a professional translator. Translate text accurately while:
 - Preserving the original meaning and tone
@@ -61,11 +58,21 @@ Include subject line suggestions.`,
 - Stand out to recruiters`
   }
 
-  const result = streamText({
-    model: 'openai/gpt-4o-mini',
-    system: systemPrompts[type] || systemPrompts.write,
-    prompt,
-  })
+  const inputText = text || prompt
 
-  return result.toUIMessageStreamResponse()
+  try {
+    const result = await generateText({
+      model: 'openai/gpt-4o-mini',
+      system: systemPrompts[type] || systemPrompts.write,
+      prompt: inputText,
+    })
+
+    return Response.json({ result: result.text })
+  } catch (error) {
+    console.error('AI Generation Error:', error)
+    return Response.json({ 
+      result: 'Sorry, there was an error processing your request. Please try again.',
+      error: true 
+    }, { status: 500 })
+  }
 }

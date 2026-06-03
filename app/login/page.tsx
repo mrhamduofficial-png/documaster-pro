@@ -3,21 +3,38 @@
 import { useState } from 'react'
 import { Header, Footer } from '@/components/navigation'
 import Link from 'next/link'
-import { Mail, Lock, Github, Chrome } from 'lucide-react'
+import { Mail, Lock, Chrome } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    // Simulate login
+    setError('')
+    
+    // Simulate login - in production, this would call an auth API
     await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    // Demo: Store user in localStorage
+    if (email && password) {
+      localStorage.setItem('docusprint_user', JSON.stringify({ email, name: email.split('@')[0] }))
+      window.location.href = '/tools'
+    } else {
+      setError('Please enter valid credentials')
+    }
     setLoading(false)
-    // Redirect would happen here
+  }
+
+  const handleGoogleLogin = () => {
+    // For demo purposes, simulate Google login
+    const demoUser = { email: 'demo@docusprint.app', name: 'Demo User' }
+    localStorage.setItem('docusprint_user', JSON.stringify(demoUser))
+    window.location.href = '/tools'
   }
 
   return (
@@ -34,15 +51,20 @@ export default function LoginPage() {
               </p>
             </div>
 
+            {error && (
+              <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
+                {error}
+              </div>
+            )}
+
             {/* Social Login */}
             <div className="space-y-3 mb-6">
-              <button className="btn btn-secondary w-full justify-center gap-3">
+              <button 
+                onClick={handleGoogleLogin}
+                className="btn-secondary w-full flex items-center justify-center gap-3"
+              >
                 <Chrome className="w-5 h-5" />
                 Continue with Google
-              </button>
-              <button className="btn btn-secondary w-full justify-center gap-3">
-                <Github className="w-5 h-5" />
-                Continue with GitHub
               </button>
             </div>
 
@@ -68,7 +90,7 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="input pl-11 w-full"
+                    className="input-field pl-11"
                     required
                   />
                 </div>
@@ -87,8 +109,8 @@ export default function LoginPage() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="input pl-11 w-full"
+                    placeholder="Enter your password"
+                    className="input-field pl-11"
                     required
                   />
                 </div>
@@ -100,6 +122,7 @@ export default function LoginPage() {
                   id="remember"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-[rgb(var(--border))] text-[rgb(var(--primary))] focus:ring-[rgb(var(--primary))]"
                 />
                 <label htmlFor="remember" className="text-sm text-[rgb(var(--muted-foreground))]">
                   Remember me for 30 days
@@ -109,7 +132,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary w-full justify-center"
+                className="btn-primary w-full flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>

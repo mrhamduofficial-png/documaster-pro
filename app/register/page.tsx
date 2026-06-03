@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Header, Footer } from '@/components/navigation'
 import Link from 'next/link'
-import { Mail, Lock, User, Github, Chrome } from 'lucide-react'
+import { Mail, Lock, User, Chrome } from 'lucide-react'
 
 export default function RegisterPage() {
   const [name, setName] = useState('')
@@ -11,14 +11,29 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
+    
     // Simulate registration
     await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    if (name && email && password) {
+      localStorage.setItem('docusprint_user', JSON.stringify({ email, name }))
+      window.location.href = '/tools'
+    } else {
+      setError('Please fill in all fields')
+    }
     setLoading(false)
-    // Redirect would happen here
+  }
+
+  const handleGoogleSignup = () => {
+    const demoUser = { email: 'demo@docusprint.app', name: 'Demo User' }
+    localStorage.setItem('docusprint_user', JSON.stringify(demoUser))
+    window.location.href = '/tools'
   }
 
   return (
@@ -35,15 +50,20 @@ export default function RegisterPage() {
               </p>
             </div>
 
+            {error && (
+              <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
+                {error}
+              </div>
+            )}
+
             {/* Social Login */}
             <div className="space-y-3 mb-6">
-              <button className="btn btn-secondary w-full justify-center gap-3">
+              <button 
+                onClick={handleGoogleSignup}
+                className="btn-secondary w-full flex items-center justify-center gap-3"
+              >
                 <Chrome className="w-5 h-5" />
                 Continue with Google
-              </button>
-              <button className="btn btn-secondary w-full justify-center gap-3">
-                <Github className="w-5 h-5" />
-                Continue with GitHub
               </button>
             </div>
 
@@ -69,7 +89,7 @@ export default function RegisterPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="John Doe"
-                    className="input pl-11 w-full"
+                    className="input-field pl-11"
                     required
                   />
                 </div>
@@ -84,7 +104,7 @@ export default function RegisterPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="input pl-11 w-full"
+                    className="input-field pl-11"
                     required
                   />
                 </div>
@@ -98,8 +118,8 @@ export default function RegisterPage() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="input pl-11 w-full"
+                    placeholder="Create a strong password"
+                    className="input-field pl-11"
                     required
                     minLength={8}
                   />
@@ -115,7 +135,7 @@ export default function RegisterPage() {
                   id="agree"
                   checked={agreed}
                   onChange={(e) => setAgreed(e.target.checked)}
-                  className="mt-1"
+                  className="mt-1 w-4 h-4 rounded border-[rgb(var(--border))] text-[rgb(var(--primary))] focus:ring-[rgb(var(--primary))]"
                   required
                 />
                 <label htmlFor="agree" className="text-sm text-[rgb(var(--muted-foreground))]">
@@ -133,7 +153,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={loading || !agreed}
-                className="btn btn-primary w-full justify-center"
+                className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <>

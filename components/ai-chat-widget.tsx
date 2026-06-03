@@ -1,20 +1,21 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
 import { MessageSquare, X, Send, Sparkles, Loader2, Bot, User } from 'lucide-react'
+
+interface Message {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+}
 
 export function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  const { messages, sendMessage, status, setMessages } = useChat({
-    transport: new DefaultChatTransport({ api: '/api/chat' }),
-  })
-
-  const [input, setInput] = useState('')
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -30,20 +31,79 @@ export function AIChatWidget() {
     }
   }, [isOpen])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!input.trim() || status === 'streaming') return
+    if (!input.trim() || isLoading) return
     
-    sendMessage({ text: input })
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: input.trim()
+    }
+    
+    setMessages(prev => [...prev, userMessage])
     setInput('')
-  }
+    setIsLoading(true)
 
-  const getMessageText = (message: typeof messages[0]): string => {
-    if (!message.parts || !Array.isArray(message.parts)) return ''
-    return message.parts
-      .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
-      .map((p) => p.text)
-      .join('')
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, userMessage].map(m => ({
+            role: m.role,
+            content: m.content
+          }))
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to get response')
+
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No reader')
+
+      const decoder = new TextDecoder()
+      let assistantContent = ''
+      const assistantId = (Date.now() + 1).toString()
+
+      setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: '' }])
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value, { stream: true })
+        const lines = chunk.split('\n')
+
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            const data = line.slice(5).trim()
+            if (data === '[DONE]') continue
+            try {
+              const parsed = JSON.parse(data)
+              if (parsed.type === 'text-delta' && parsed.delta) {
+                assistantContent += parsed.delta
+                setMessages(prev => 
+                  prev.map(m => 
+                    m.id === assistantId ? { ...m, content: assistantContent } : m
+                  )
+                )
+              }
+            } catch {
+              // Skip invalid JSON
+            }
+          }
+        }
+      }
+    } catch (error) {
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: 'Sorry, I encountered an error. Please try again.'
+      }])
+    }
+
+    setIsLoading(false)
   }
 
   const suggestedQuestions = [
@@ -54,10 +114,10 @@ export function AIChatWidget() {
   ]
 
   return (
-    <div className="ai-chat-widget">
+    <div className="fixed bottom-6 right-6 z-50">
       {/* Chat Window */}
       {isOpen && (
-        <div className="ai-chat-window animate-in slide-in-from-bottom-5 duration-300">
+        <div className="absolute bottom-20 right-0 w-96 max-h-[600px] card shadow-2xl overflow-hidden flex flex-col animate-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
           <div className="gradient-bg p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -106,9 +166,9 @@ export function AIChatWidget() {
                 </div>
               </div>
             ) : (
-              messages.map((message, index) => (
+              messages.map((message) => (
                 <div
-                  key={message.id || index}
+                  key={message.id}
                   className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
@@ -127,12 +187,12 @@ export function AIChatWidget() {
                       ? 'bg-[rgb(var(--primary))] text-white rounded-tr-sm'
                       : 'bg-[rgb(var(--card))] text-[rgb(var(--card-foreground))] rounded-tl-sm border border-[rgb(var(--border))]'
                   }`}>
-                    <p className="text-sm whitespace-pre-wrap">{getMessageText(message)}</p>
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
                 </div>
               ))
             )}
-            {status === 'streaming' && (
+            {isLoading && messages[messages.length - 1]?.role === 'user' && (
               <div className="flex gap-3">
                 <div className="w-8 h-8 rounded-full gradient-bg flex items-center justify-center">
                   <Loader2 className="w-4 h-4 text-white animate-spin" />
@@ -159,14 +219,14 @@ export function AIChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask me anything..."
                 className="flex-1 input-field text-sm"
-                disabled={status === 'streaming'}
+                disabled={isLoading}
               />
               <button
                 type="submit"
-                disabled={!input.trim() || status === 'streaming'}
+                disabled={!input.trim() || isLoading}
                 className="btn-primary p-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {status === 'streaming' ? (
+                {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
                   <Send className="w-5 h-5" />
@@ -180,7 +240,7 @@ export function AIChatWidget() {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`ai-chat-bubble ${isOpen ? 'scale-0' : 'scale-100'} transition-transform`}
+        className={`w-14 h-14 rounded-full gradient-bg flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform duration-300 ${isOpen ? 'scale-0' : 'scale-100'}`}
         aria-label="Open AI Chat"
       >
         <MessageSquare className="w-6 h-6 text-white" />

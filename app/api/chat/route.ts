@@ -1,7 +1,7 @@
 import { streamText } from 'ai'
 
 export async function POST(req: Request) {
-  const { messages, tool } = await req.json()
+  const { messages } = await req.json()
 
   const systemPrompt = `You are DocuSprint AI, an intelligent assistant for DocuSprint - a free online document and utility tools platform. 
 
@@ -11,8 +11,6 @@ Your capabilities:
 3. **Code Generation**: Generate code snippets in various programming languages
 4. **Grammar & Style**: Check and improve grammar, tone, and clarity
 5. **General Q&A**: Answer questions about DocuSprint tools and features
-
-Tool Context: ${tool ? `User is currently using the "${tool}" tool.` : 'User is on the main page.'}
 
 Guidelines:
 - Be helpful, concise, and friendly
@@ -30,7 +28,10 @@ Available DocuSprint Tools:
   const result = streamText({
     model: 'openai/gpt-4o-mini',
     system: systemPrompt,
-    messages,
+    messages: messages.map((m: { role: string; content: string }) => ({
+      role: m.role as 'user' | 'assistant',
+      content: m.content
+    })),
   })
 
   return result.toUIMessageStreamResponse()
