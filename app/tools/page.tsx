@@ -3,8 +3,8 @@
 import { Header, Footer } from '@/components/navigation'
 import Link from 'next/link'
 import { 
-  FileText, Image, Code, ArrowRight,
-  Hash, QrCode, Lock, Braces, Binary, Type, Minimize2
+  FileText, Image, Code, ArrowRight, Calculator,
+  Hash, QrCode, Lock, Braces, Binary, Type, Minimize2, Palette, Ruler, Cake
 } from 'lucide-react'
 
 const toolCategories = [
@@ -26,6 +26,7 @@ const toolCategories = [
     color: 'from-green-500 to-emerald-500',
     tools: [
       { name: 'Image Compressor', href: '/tools/image-compress', icon: Minimize2, description: 'Reduce image size without quality loss' },
+      { name: 'QR Code Generator', href: '/tools/qr-generator', icon: QrCode, description: 'Create custom QR codes' },
     ]
   },
   {
@@ -37,15 +38,17 @@ const toolCategories = [
       { name: 'JSON Formatter', href: '/tools/json-formatter', icon: Braces, description: 'Format and validate JSON' },
       { name: 'Base64 Encoder/Decoder', href: '/tools/base64', icon: Binary, description: 'Encode and decode Base64' },
       { name: 'Hash Generator', href: '/tools/hash-generator', icon: Hash, description: 'Generate MD5, SHA-1, SHA-256 hashes' },
+      { name: 'Color Picker', href: '/tools/color-picker', icon: Palette, description: 'Pick colors and convert formats' },
     ]
   },
   {
-    name: 'Generator Tools',
-    description: 'Generate passwords, QR codes & more',
-    icon: QrCode,
+    name: 'Calculators & Converters',
+    description: 'Useful calculators and converters',
+    icon: Calculator,
     color: 'from-orange-500 to-red-500',
     tools: [
-      { name: 'QR Code Generator', href: '/tools/qr-generator', icon: QrCode, description: 'Create custom QR codes' },
+      { name: 'Unit Converter', href: '/tools/unit-converter', icon: Ruler, description: 'Convert between units of measurement' },
+      { name: 'Age Calculator', href: '/tools/age-calculator', icon: Cake, description: 'Calculate exact age and more' },
       { name: 'Password Generator', href: '/tools/password-generator', icon: Lock, description: 'Generate secure passwords' },
     ]
   },
@@ -62,7 +65,7 @@ export default function ToolsPage() {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4 text-slate-900">All Free Tools</h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Free online tools for text, images, and development - no signup required
+              12 free online tools for text, images, and development - no signup required
             </p>
           </div>
 

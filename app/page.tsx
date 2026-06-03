@@ -4,8 +4,8 @@ import { Header, Footer } from '@/components/navigation'
 import Link from 'next/link'
 import { 
   FileText, Image, Code, Zap, Shield, Clock, 
-  Globe, ArrowRight, CheckCircle,
-  Hash, QrCode, Lock, Braces, Binary, Type, Minimize2
+  Globe, ArrowRight,
+  Hash, QrCode, Lock, Braces, Palette, Ruler, Cake, Minimize2
 } from 'lucide-react'
 
 const featuredTools = [
@@ -19,7 +19,7 @@ const featuredTools = [
   {
     name: 'Image Compressor',
     description: 'Compress images without losing quality',
-    icon: Image,
+    icon: Minimize2,
     href: '/tools/image-compress',
     color: 'from-green-500 to-emerald-500',
   },
@@ -38,18 +38,18 @@ const featuredTools = [
     color: 'from-orange-500 to-red-500',
   },
   {
-    name: 'Word Counter',
-    description: 'Count words, characters, sentences & reading time',
-    icon: Hash,
-    href: '/tools/word-counter',
+    name: 'Unit Converter',
+    description: 'Convert between different units instantly',
+    icon: Ruler,
+    href: '/tools/unit-converter',
     color: 'from-indigo-500 to-violet-500',
   },
   {
-    name: 'Hash Generator',
-    description: 'Generate MD5, SHA-1, SHA-256, SHA-512 hashes',
-    icon: Code,
-    href: '/tools/hash-generator',
-    color: 'from-teal-500 to-cyan-500',
+    name: 'Color Picker',
+    description: 'Pick colors and convert HEX, RGB, HSL',
+    icon: Palette,
+    href: '/tools/color-picker',
+    color: 'from-pink-500 to-rose-500',
   },
 ]
 
@@ -63,12 +63,15 @@ const allToolsList = [
   { name: 'Lorem Ipsum', href: '/tools/lorem-ipsum', description: 'Placeholder text' },
   { name: 'Image Compressor', href: '/tools/image-compress', description: 'Compress images' },
   { name: 'Case Converter', href: '/tools/case-converter', description: 'Convert text case' },
+  { name: 'Color Picker', href: '/tools/color-picker', description: 'Pick & convert colors' },
+  { name: 'Unit Converter', href: '/tools/unit-converter', description: 'Convert units' },
+  { name: 'Age Calculator', href: '/tools/age-calculator', description: 'Calculate age' },
 ]
 
 const stats = [
   { value: '10M+', label: 'Files Processed' },
   { value: '500K+', label: 'Happy Users' },
-  { value: '10+', label: 'Free Tools' },
+  { value: '12+', label: 'Free Tools' },
   { value: '99.9%', label: 'Uptime' },
 ]
 
@@ -95,7 +98,7 @@ export default function HomePage() {
             </h1>
             
             <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-8">
-              QR Generator, Image Compressor, Password Generator, JSON Formatter & more.
+              QR Generator, Image Compressor, Unit Converter, JSON Formatter & more.
               All tools work instantly in your browser - no signup required.
             </p>
             

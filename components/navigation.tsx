@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { 
   Menu, X, Zap, FileText, Image, Code, 
-  Sparkles, ChevronDown, Home, Grid, DollarSign, Info
+  ChevronDown, Home, Grid, DollarSign, Info,
+  Hash, Lock, QrCode, Braces, Binary, Type
 } from 'lucide-react'
 
 const navigation = [
@@ -16,20 +17,12 @@ const navigation = [
 
 const toolCategories = [
   {
-    name: 'AI Tools',
-    icon: Sparkles,
-    tools: [
-      { name: 'AI Writing Assistant', href: '/tools/ai-writer' },
-      { name: 'Text Summarizer', href: '/tools/summarizer' },
-      { name: 'Code Generator', href: '/tools/code-generator' },
-    ]
-  },
-  {
-    name: 'Document Tools',
+    name: 'Text Tools',
     icon: FileText,
     tools: [
       { name: 'Word Counter', href: '/tools/word-counter' },
-      { name: 'JSON Formatter', href: '/tools/json-formatter' },
+      { name: 'Lorem Ipsum Generator', href: '/tools/lorem-ipsum' },
+      { name: 'Case Converter', href: '/tools/case-converter' },
     ]
   },
   {
@@ -41,9 +34,21 @@ const toolCategories = [
     ]
   },
   {
-    name: 'Utilities',
+    name: 'Developer Tools',
     icon: Code,
     tools: [
+      { name: 'JSON Formatter', href: '/tools/json-formatter' },
+      { name: 'Base64 Encoder', href: '/tools/base64' },
+      { name: 'Hash Generator', href: '/tools/hash-generator' },
+      { name: 'Color Picker', href: '/tools/color-picker' },
+    ]
+  },
+  {
+    name: 'Calculators',
+    icon: Lock,
+    tools: [
+      { name: 'Unit Converter', href: '/tools/unit-converter' },
+      { name: 'Age Calculator', href: '/tools/age-calculator' },
       { name: 'Password Generator', href: '/tools/password-generator' },
     ]
   },
@@ -191,7 +196,7 @@ export function Footer() {
               <span className="text-xl font-bold text-slate-900">DocuSprint</span>
             </Link>
             <p className="text-sm text-slate-600 mb-4">
-              Free AI-powered document tools for everyone. Fast, secure, and easy to use.
+              Free online tools for everyone. Fast, secure, and easy to use.
             </p>
           </div>
 
@@ -199,11 +204,11 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-slate-900 mb-4">Popular Tools</h3>
             <ul className="space-y-2 text-sm text-slate-600">
-              <li><Link href="/tools/ai-writer" className="hover:text-blue-600 transition-colors">AI Writing Assistant</Link></li>
-              <li><Link href="/tools/summarizer" className="hover:text-blue-600 transition-colors">Text Summarizer</Link></li>
-              <li><Link href="/tools/image-compress" className="hover:text-blue-600 transition-colors">Image Compressor</Link></li>
               <li><Link href="/tools/qr-generator" className="hover:text-blue-600 transition-colors">QR Generator</Link></li>
-              <li><Link href="/tools/code-generator" className="hover:text-blue-600 transition-colors">Code Generator</Link></li>
+              <li><Link href="/tools/image-compress" className="hover:text-blue-600 transition-colors">Image Compressor</Link></li>
+              <li><Link href="/tools/unit-converter" className="hover:text-blue-600 transition-colors">Unit Converter</Link></li>
+              <li><Link href="/tools/json-formatter" className="hover:text-blue-600 transition-colors">JSON Formatter</Link></li>
+              <li><Link href="/tools/color-picker" className="hover:text-blue-600 transition-colors">Color Picker</Link></li>
             </ul>
           </div>
 
