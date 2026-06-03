@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { 
   Sparkles, FileText, Image, Code, ArrowRight,
   PenTool, Languages, Hash, QrCode, Lock, Braces,
-  FileImage, Minimize2, Type, Mail, Linkedin, FileCode
+  FileImage, Minimize2, Type, Mail, Linkedin, FileCode, Binary
 } from 'lucide-react'
 
 const toolCategories = [
@@ -55,13 +55,16 @@ const toolCategories = [
       { name: 'Word Counter', href: '/tools/word-counter', icon: Hash, description: 'Count words & characters' },
       { name: 'JSON Formatter', href: '/tools/json-formatter', icon: Braces, description: 'Format & validate JSON' },
       { name: 'Password Generator', href: '/tools/password-generator', icon: Lock, description: 'Generate secure passwords' },
+      { name: 'Hash Generator', href: '/tools/hash-generator', icon: Hash, description: 'Generate SHA & MD5 hashes' },
+      { name: 'Base64 Encoder', href: '/tools/base64', icon: Binary, description: 'Encode & decode Base64' },
+      { name: 'Lorem Ipsum', href: '/tools/lorem-ipsum', icon: FileText, description: 'Generate placeholder text' },
     ]
   },
 ]
 
 export default function ToolsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
       <main className="flex-1 pt-24 pb-16">

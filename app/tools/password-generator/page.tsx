@@ -67,7 +67,7 @@ export default function PasswordGeneratorPage() {
   const strength = getStrength()
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
       <main className="flex-1 pt-24 pb-16">
