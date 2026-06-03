@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   description: 'Upgrade to DocuSprint Pro for unlimited AI tools, ad-free experience, OCR features, and priority support. Start with a 7-day free trial.',
 }
 
-// GUMROAD PRODUCT LINKS - Replace these with your actual Gumroad product URLs
+// GUMROAD PRODUCT LINKS
 const GUMROAD_LINKS = {
-  pro_monthly: 'https://docusprint.gumroad.com/l/pro-monthly',
-  pro_yearly: 'https://docusprint.gumroad.com/l/pro-yearly',
-  team_monthly: 'https://docusprint.gumroad.com/l/team-monthly',
-  team_yearly: 'https://docusprint.gumroad.com/l/team-yearly',
+  pro_monthly: 'https://sitecrafters.gumroad.com/l/vtvrir',
+  pro_yearly: 'https://sitecrafters.gumroad.com/l/rxejgf',
+  team_monthly: 'https://sitecrafters.gumroad.com/l/watuai',
+  team_yearly: 'https://sitecrafters.gumroad.com/l/watuai',
 }
 
 const plans = [
