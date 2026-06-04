@@ -124,7 +124,7 @@ export default function JsonToExcelPage() {
             <h2 className="text-xl font-semibold text-slate-900 mb-4">How to Use</h2>
             <ol className="list-decimal list-inside space-y-2 text-slate-600">
               <li>Paste your JSON array data in the text area above</li>
-              <li>JSON must be an array of objects (e.g., [{"key": "value"}])</li>
+              <li>JSON must be an array of objects (e.g., {"[{\"key\": \"value\"}]"})</li>
               <li>Click "Convert to Excel" to download the spreadsheet</li>
               <li>Open the downloaded file in Excel, Google Sheets, or similar</li>
             </ol>
