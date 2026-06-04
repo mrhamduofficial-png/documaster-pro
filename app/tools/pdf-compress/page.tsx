@@ -37,7 +37,7 @@ export default function PDFCompressPage() {
       const compressedSize = compressedBytes.length
       setResult({ original: originalSize, compressed: compressedSize })
 
-      const blob = new Blob([compressedBytes], { type: 'application/pdf' })
+      const blob = new Blob([new Uint8Array(compressedBytes)], { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url

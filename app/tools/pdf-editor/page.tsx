@@ -122,7 +122,7 @@ export default function PDFEditorPage() {
         
         const ctx = canvas.getContext('2d')
         if (ctx) {
-          await page.render({ canvasContext: ctx, viewport }).promise
+          await page.render({ canvasContext: ctx, viewport, canvas }).promise
           images.push(canvas.toDataURL('image/png'))
         }
       }
@@ -330,7 +330,7 @@ export default function PDFEditorPage() {
       }
       
       const pdfBytes = await newDoc.save()
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' })
+      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
