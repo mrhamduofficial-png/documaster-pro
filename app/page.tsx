@@ -6,23 +6,37 @@ import {
   FileText, Image, Code, Zap, Shield, Clock, 
   Globe, ArrowRight,
   Hash, QrCode, Lock, Braces, Palette, Ruler, Cake, Minimize2,
-  FilePlus, FileX, FileArchive, FileSpreadsheet
+  FilePlus, FileX, FileArchive, FileSpreadsheet, Edit3, FileOutput
 } from 'lucide-react'
 
 const featuredTools = [
+  {
+    name: 'PDF Editor',
+    description: 'Edit PDF files online - add text, images, and more',
+    icon: Edit3,
+    href: '/tools/pdf-editor',
+    color: 'from-red-500 to-orange-500',
+  },
+  {
+    name: 'PDF to Word',
+    description: 'Convert PDF to editable Word documents',
+    icon: FileOutput,
+    href: '/tools/pdf-to-word',
+    color: 'from-blue-500 to-indigo-500',
+  },
   {
     name: 'PDF Merge',
     description: 'Combine multiple PDFs into one document',
     icon: FilePlus,
     href: '/tools/pdf-merge',
-    color: 'from-red-500 to-orange-500',
+    color: 'from-purple-500 to-pink-500',
   },
   {
     name: 'QR Code Generator',
     description: 'Create custom QR codes for URLs, WiFi, text & more',
     icon: QrCode,
     href: '/tools/qr-generator',
-    color: 'from-blue-500 to-cyan-500',
+    color: 'from-cyan-500 to-blue-500',
   },
   {
     name: 'Image Compressor',
@@ -32,37 +46,27 @@ const featuredTools = [
     color: 'from-green-500 to-emerald-500',
   },
   {
-    name: 'PDF Split',
-    description: 'Split PDF into separate pages',
-    icon: FileX,
-    href: '/tools/pdf-split',
-    color: 'from-purple-500 to-pink-500',
-  },
-  {
     name: 'Unit Converter',
     description: 'Convert between different units instantly',
     icon: Ruler,
     href: '/tools/unit-converter',
-    color: 'from-indigo-500 to-violet-500',
-  },
-  {
-    name: 'JSON Formatter',
-    description: 'Format, validate, and beautify JSON data',
-    icon: Braces,
-    href: '/tools/json-formatter',
     color: 'from-orange-500 to-red-500',
   },
 ]
 
 const allToolsList = [
+  { name: 'PDF Editor', href: '/tools/pdf-editor', description: 'Edit PDF files' },
+  { name: 'PDF to Word', href: '/tools/pdf-to-word', description: 'Convert PDF to Word' },
   { name: 'PDF Merge', href: '/tools/pdf-merge', description: 'Combine PDFs' },
   { name: 'PDF Split', href: '/tools/pdf-split', description: 'Split PDF pages' },
   { name: 'PDF Compress', href: '/tools/pdf-compress', description: 'Compress PDFs' },
+  { name: 'Word to PDF', href: '/tools/word-to-pdf', description: 'Convert Word to PDF' },
   { name: 'Text to PDF', href: '/tools/text-to-pdf', description: 'Create PDF from text' },
   { name: 'Excel to JSON', href: '/tools/excel-to-json', description: 'Convert Excel to JSON' },
   { name: 'JSON to Excel', href: '/tools/json-to-excel', description: 'Convert JSON to Excel' },
   { name: 'QR Code Generator', href: '/tools/qr-generator', description: 'Create QR codes' },
   { name: 'Image Compressor', href: '/tools/image-compress', description: 'Compress images' },
+  { name: 'Image Converter', href: '/tools/image-converter', description: 'Convert image formats' },
   { name: 'Word Counter', href: '/tools/word-counter', description: 'Count words & characters' },
   { name: 'JSON Formatter', href: '/tools/json-formatter', description: 'Format JSON data' },
   { name: 'Password Generator', href: '/tools/password-generator', description: 'Generate passwords' },
@@ -78,7 +82,7 @@ const allToolsList = [
 const stats = [
   { value: '10M+', label: 'Files Processed' },
   { value: '500K+', label: 'Happy Users' },
-  { value: '18+', label: 'Free Tools' },
+  { value: '22+', label: 'Free Tools' },
   { value: '99.9%', label: 'Uptime' },
 ]
 

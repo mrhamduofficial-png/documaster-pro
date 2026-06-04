@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { 
   FileText, Image, Code, ArrowRight, Calculator,
   Hash, QrCode, Lock, Braces, Binary, Type, Minimize2, Palette, Ruler, Cake,
-  FileSpreadsheet, FilePlus, FileX, FileArchive, Table
+  FileSpreadsheet, FilePlus, FileX, FileArchive, Table, FileOutput, Edit3
 } from 'lucide-react'
 
 const toolCategories = [
@@ -15,6 +15,8 @@ const toolCategories = [
     icon: FileText,
     color: 'from-red-500 to-orange-500',
     tools: [
+      { name: 'PDF Editor', href: '/tools/pdf-editor', icon: Edit3, description: 'Edit PDF files online' },
+      { name: 'PDF to Word', href: '/tools/pdf-to-word', icon: FileOutput, description: 'Convert PDF to Word document' },
       { name: 'PDF Merge', href: '/tools/pdf-merge', icon: FilePlus, description: 'Combine multiple PDFs into one' },
       { name: 'PDF Split', href: '/tools/pdf-split', icon: FileX, description: 'Split PDF into separate pages' },
       { name: 'PDF Compress', href: '/tools/pdf-compress', icon: FileArchive, description: 'Reduce PDF file size' },
@@ -90,7 +92,7 @@ export default function ToolsPage() {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4 text-slate-900">All Free Online Tools</h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              18+ free online tools for PDF, Excel, text, images, and development - no signup required
+              22+ free online tools for PDF, Excel, text, images, and development - no signup required
             </p>
           </div>
 
