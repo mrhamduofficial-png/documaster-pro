@@ -5,10 +5,18 @@ import Link from 'next/link'
 import { 
   FileText, Image, Code, Zap, Shield, Clock, 
   Globe, ArrowRight,
-  Hash, QrCode, Lock, Braces, Palette, Ruler, Cake, Minimize2
+  Hash, QrCode, Lock, Braces, Palette, Ruler, Cake, Minimize2,
+  FilePlus, FileX, FileArchive, FileSpreadsheet
 } from 'lucide-react'
 
 const featuredTools = [
+  {
+    name: 'PDF Merge',
+    description: 'Combine multiple PDFs into one document',
+    icon: FilePlus,
+    href: '/tools/pdf-merge',
+    color: 'from-red-500 to-orange-500',
+  },
   {
     name: 'QR Code Generator',
     description: 'Create custom QR codes for URLs, WiFi, text & more',
@@ -24,18 +32,11 @@ const featuredTools = [
     color: 'from-green-500 to-emerald-500',
   },
   {
-    name: 'Password Generator',
-    description: 'Generate strong, secure passwords instantly',
-    icon: Lock,
-    href: '/tools/password-generator',
+    name: 'PDF Split',
+    description: 'Split PDF into separate pages',
+    icon: FileX,
+    href: '/tools/pdf-split',
     color: 'from-purple-500 to-pink-500',
-  },
-  {
-    name: 'JSON Formatter',
-    description: 'Format, validate, and beautify JSON data',
-    icon: Braces,
-    href: '/tools/json-formatter',
-    color: 'from-orange-500 to-red-500',
   },
   {
     name: 'Unit Converter',
@@ -45,23 +46,29 @@ const featuredTools = [
     color: 'from-indigo-500 to-violet-500',
   },
   {
-    name: 'Color Picker',
-    description: 'Pick colors and convert HEX, RGB, HSL',
-    icon: Palette,
-    href: '/tools/color-picker',
-    color: 'from-pink-500 to-rose-500',
+    name: 'JSON Formatter',
+    description: 'Format, validate, and beautify JSON data',
+    icon: Braces,
+    href: '/tools/json-formatter',
+    color: 'from-orange-500 to-red-500',
   },
 ]
 
 const allToolsList = [
+  { name: 'PDF Merge', href: '/tools/pdf-merge', description: 'Combine PDFs' },
+  { name: 'PDF Split', href: '/tools/pdf-split', description: 'Split PDF pages' },
+  { name: 'PDF Compress', href: '/tools/pdf-compress', description: 'Compress PDFs' },
+  { name: 'Text to PDF', href: '/tools/text-to-pdf', description: 'Create PDF from text' },
+  { name: 'Excel to JSON', href: '/tools/excel-to-json', description: 'Convert Excel to JSON' },
+  { name: 'JSON to Excel', href: '/tools/json-to-excel', description: 'Convert JSON to Excel' },
   { name: 'QR Code Generator', href: '/tools/qr-generator', description: 'Create QR codes' },
+  { name: 'Image Compressor', href: '/tools/image-compress', description: 'Compress images' },
   { name: 'Word Counter', href: '/tools/word-counter', description: 'Count words & characters' },
   { name: 'JSON Formatter', href: '/tools/json-formatter', description: 'Format JSON data' },
   { name: 'Password Generator', href: '/tools/password-generator', description: 'Generate passwords' },
   { name: 'Hash Generator', href: '/tools/hash-generator', description: 'Create hash values' },
   { name: 'Base64 Encoder', href: '/tools/base64', description: 'Encode & decode' },
   { name: 'Lorem Ipsum', href: '/tools/lorem-ipsum', description: 'Placeholder text' },
-  { name: 'Image Compressor', href: '/tools/image-compress', description: 'Compress images' },
   { name: 'Case Converter', href: '/tools/case-converter', description: 'Convert text case' },
   { name: 'Color Picker', href: '/tools/color-picker', description: 'Pick & convert colors' },
   { name: 'Unit Converter', href: '/tools/unit-converter', description: 'Convert units' },
@@ -71,7 +78,7 @@ const allToolsList = [
 const stats = [
   { value: '10M+', label: 'Files Processed' },
   { value: '500K+', label: 'Happy Users' },
-  { value: '12+', label: 'Free Tools' },
+  { value: '18+', label: 'Free Tools' },
   { value: '99.9%', label: 'Uptime' },
 ]
 
@@ -92,13 +99,13 @@ export default function HomePage() {
         <section className="relative overflow-hidden py-20 lg:py-32 bg-gradient-to-b from-blue-50 to-white">
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-slate-900">
-              Free Online Tools for
+              Free PDF, Excel & Online
               <br />
-              <span className="text-blue-600">Everyone</span>
+              <span className="text-blue-600">Tools for Everyone</span>
             </h1>
             
             <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-8">
-              QR Generator, Image Compressor, Unit Converter, JSON Formatter & more.
+              PDF Merge, Split, Compress, Excel Converter, QR Generator, Image Compressor & more.
               All tools work instantly in your browser - no signup required.
             </p>
             
@@ -107,8 +114,8 @@ export default function HomePage() {
                 Explore All Tools
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/tools/qr-generator" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-slate-700 font-semibold rounded-xl border-2 border-slate-200 hover:border-blue-300 hover:text-blue-600 transition-all">
-                Try QR Generator
+              <Link href="/tools/pdf-merge" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-slate-700 font-semibold rounded-xl border-2 border-slate-200 hover:border-blue-300 hover:text-blue-600 transition-all">
+                Try PDF Merge
               </Link>
             </div>
 
@@ -177,7 +184,7 @@ export default function HomePage() {
               <p className="text-slate-600">Quick access to all our tools</p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
               {allToolsList.map((tool, index) => (
                 <Link
                   key={index}

@@ -4,14 +4,37 @@ import { Header, Footer } from '@/components/navigation'
 import Link from 'next/link'
 import { 
   FileText, Image, Code, ArrowRight, Calculator,
-  Hash, QrCode, Lock, Braces, Binary, Type, Minimize2, Palette, Ruler, Cake
+  Hash, QrCode, Lock, Braces, Binary, Type, Minimize2, Palette, Ruler, Cake,
+  FileSpreadsheet, FilePlus, FileX, FileArchive, Table
 } from 'lucide-react'
 
 const toolCategories = [
   {
+    name: 'PDF Tools',
+    description: 'Edit, merge, split and compress PDF files',
+    icon: FileText,
+    color: 'from-red-500 to-orange-500',
+    tools: [
+      { name: 'PDF Merge', href: '/tools/pdf-merge', icon: FilePlus, description: 'Combine multiple PDFs into one' },
+      { name: 'PDF Split', href: '/tools/pdf-split', icon: FileX, description: 'Split PDF into separate pages' },
+      { name: 'PDF Compress', href: '/tools/pdf-compress', icon: FileArchive, description: 'Reduce PDF file size' },
+      { name: 'Text to PDF', href: '/tools/text-to-pdf', icon: FileText, description: 'Convert text to PDF document' },
+    ]
+  },
+  {
+    name: 'Excel & Data Tools',
+    description: 'Convert and process spreadsheet data',
+    icon: FileSpreadsheet,
+    color: 'from-green-500 to-emerald-500',
+    tools: [
+      { name: 'Excel to JSON', href: '/tools/excel-to-json', icon: Table, description: 'Convert Excel files to JSON' },
+      { name: 'JSON to Excel', href: '/tools/json-to-excel', icon: FileSpreadsheet, description: 'Convert JSON data to Excel' },
+    ]
+  },
+  {
     name: 'Text Tools',
     description: 'Text processing and generation utilities',
-    icon: FileText,
+    icon: Type,
     color: 'from-blue-500 to-cyan-500',
     tools: [
       { name: 'Word Counter', href: '/tools/word-counter', icon: Hash, description: 'Count words, characters, sentences' },
@@ -23,7 +46,7 @@ const toolCategories = [
     name: 'Image Tools',
     description: 'Compress and optimize images',
     icon: Image,
-    color: 'from-green-500 to-emerald-500',
+    color: 'from-purple-500 to-pink-500',
     tools: [
       { name: 'Image Compressor', href: '/tools/image-compress', icon: Minimize2, description: 'Reduce image size without quality loss' },
       { name: 'QR Code Generator', href: '/tools/qr-generator', icon: QrCode, description: 'Create custom QR codes' },
@@ -33,7 +56,7 @@ const toolCategories = [
     name: 'Developer Tools',
     description: 'Essential tools for developers',
     icon: Code,
-    color: 'from-purple-500 to-pink-500',
+    color: 'from-indigo-500 to-blue-500',
     tools: [
       { name: 'JSON Formatter', href: '/tools/json-formatter', icon: Braces, description: 'Format and validate JSON' },
       { name: 'Base64 Encoder/Decoder', href: '/tools/base64', icon: Binary, description: 'Encode and decode Base64' },
@@ -45,7 +68,7 @@ const toolCategories = [
     name: 'Calculators & Converters',
     description: 'Useful calculators and converters',
     icon: Calculator,
-    color: 'from-orange-500 to-red-500',
+    color: 'from-yellow-500 to-orange-500',
     tools: [
       { name: 'Unit Converter', href: '/tools/unit-converter', icon: Ruler, description: 'Convert between units of measurement' },
       { name: 'Age Calculator', href: '/tools/age-calculator', icon: Cake, description: 'Calculate exact age and more' },
@@ -63,9 +86,9 @@ export default function ToolsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 text-slate-900">All Free Tools</h1>
+            <h1 className="text-4xl font-bold mb-4 text-slate-900">All Free Online Tools</h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              12 free online tools for text, images, and development - no signup required
+              18+ free online tools for PDF, Excel, text, images, and development - no signup required
             </p>
           </div>
 

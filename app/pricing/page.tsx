@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Pricing - DocuSprint Pro & Team Plans',
-  description: 'Upgrade to DocuSprint Pro for unlimited AI tools, ad-free experience, OCR features, and priority support. Start with a 7-day free trial.',
+  description: 'Upgrade to DocuSprint Pro for unlimited PDF tools, ad-free experience, batch processing, and priority support.',
 }
 
 // GUMROAD PRODUCT LINKS
@@ -24,10 +24,10 @@ const plans = [
     yearlyPrice: null,
     description: 'Perfect for occasional use',
     icon: Zap,
-    color: 'bg-[rgb(var(--secondary))]',
+    color: 'bg-slate-500',
     features: [
-      '5 AI tool uses per day',
-      'Basic PDF tools (unlimited)',
+      'All basic tools (unlimited)',
+      'PDF merge (up to 3 files)',
       'Image compression (5MB limit)',
       'Standard QR codes',
       'Word counter & text tools',
@@ -35,13 +35,13 @@ const plans = [
     ],
     limitations: [
       'Ads displayed',
-      'No OCR features',
       'No batch processing',
+      'Limited PDF features',
       'No API access',
     ],
     cta: 'Get Started Free',
     ctaVariant: 'secondary' as const,
-    href: '/register',
+    href: '/tools',
   },
   {
     name: 'Pro',
@@ -51,15 +51,15 @@ const plans = [
     yearlySavings: 'Save $29',
     description: 'For power users & professionals',
     icon: Sparkles,
-    color: 'bg-gradient-to-br from-[rgb(var(--primary))] to-purple-600',
+    color: 'bg-gradient-to-br from-blue-600 to-purple-600',
     popular: true,
     features: [
-      'Unlimited AI tool uses',
-      'All PDF tools (unlimited)',
+      'All tools (unlimited)',
+      'PDF merge (unlimited files)',
+      'PDF split & compress',
       'Image compression (50MB limit)',
       'Advanced QR with logos & colors',
-      'OCR text extraction',
-      'AI Background Remover',
+      'Batch processing',
       'Priority processing speed',
       'Ad-free experience',
       'Email support (24hr response)',
@@ -67,7 +67,7 @@ const plans = [
       'Export in all formats',
     ],
     limitations: [],
-    cta: 'Start 7-Day Free Trial',
+    cta: 'Get Pro Access',
     ctaVariant: 'primary' as const,
     href: GUMROAD_LINKS.pro_monthly,
     gumroad: true,
@@ -95,7 +95,7 @@ const plans = [
       'Dedicated account manager',
     ],
     limitations: [],
-    cta: 'Start Team Trial',
+    cta: 'Get Team Access',
     ctaVariant: 'secondary' as const,
     href: GUMROAD_LINKS.team_monthly,
     gumroad: true,
@@ -104,18 +104,18 @@ const plans = [
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
       <main className="flex-1 pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-[rgb(var(--primary))]/10 text-[rgb(var(--primary))] mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-600 mb-4">
               Simple Pricing
             </span>
-            <h1 className="text-4xl font-bold mb-4">Choose Your Plan</h1>
-            <p className="text-xl text-[rgb(var(--muted-foreground))] max-w-2xl mx-auto">
+            <h1 className="text-4xl font-bold mb-4 text-slate-900">Choose Your Plan</h1>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Start free, upgrade when you need more power. Cancel anytime.
             </p>
           </div>
@@ -125,11 +125,11 @@ export default function PricingPage() {
             {plans.map((plan, index) => (
               <div 
                 key={index}
-                className={`card relative ${plan.popular ? 'border-[rgb(var(--primary))] ring-2 ring-[rgb(var(--primary))]/20 scale-105' : ''}`}
+                className={`bg-white rounded-2xl border relative ${plan.popular ? 'border-blue-500 ring-2 ring-blue-500/20 scale-105' : 'border-slate-200'}`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[rgb(var(--primary))] text-white">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-600 text-white">
                       Most Popular
                     </span>
                   </div>
@@ -140,18 +140,18 @@ export default function PricingPage() {
                     <plan.icon className="w-6 h-6 text-white" />
                   </div>
                   
-                  <h2 className="text-xl font-bold mb-1">{plan.name}</h2>
-                  <p className="text-sm text-[rgb(var(--muted-foreground))] mb-4">{plan.description}</p>
+                  <h2 className="text-xl font-bold mb-1 text-slate-900">{plan.name}</h2>
+                  <p className="text-sm text-slate-500 mb-4">{plan.description}</p>
                   
                   <div className="mb-2">
-                    <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-[rgb(var(--muted-foreground))]">{plan.period}</span>
+                    <span className="text-4xl font-bold text-slate-900">{plan.price}</span>
+                    <span className="text-slate-500">{plan.period}</span>
                   </div>
                   
                   {plan.yearlyPrice && (
-                    <p className="text-sm text-[rgb(var(--muted-foreground))] mb-4">
+                    <p className="text-sm text-slate-500 mb-4">
                       or {plan.yearlyPrice}{' '}
-                      <span className="text-green-500 font-medium">({plan.yearlySavings})</span>
+                      <span className="text-green-600 font-medium">({plan.yearlySavings})</span>
                     </p>
                   )}
                   
@@ -160,7 +160,7 @@ export default function PricingPage() {
                       href={plan.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center justify-center gap-2 w-full ${plan.ctaVariant === 'primary' ? 'btn-primary' : 'btn-secondary'}`}
+                      className={`flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg font-medium transition-colors ${plan.ctaVariant === 'primary' ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
                     >
                       {plan.cta}
                       <ExternalLink className="w-4 h-4" />
@@ -168,18 +168,18 @@ export default function PricingPage() {
                   ) : (
                     <Link 
                       href={plan.href}
-                      className={`flex items-center justify-center w-full ${plan.ctaVariant === 'primary' ? 'btn-primary' : 'btn-secondary'}`}
+                      className={`flex items-center justify-center w-full py-3 px-4 rounded-lg font-medium transition-colors ${plan.ctaVariant === 'primary' ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
                     >
                       {plan.cta}
                     </Link>
                   )}
                 </div>
                 
-                <div className="border-t border-[rgb(var(--border))] p-6">
-                  <p className="text-sm font-semibold mb-4">What&apos;s included:</p>
+                <div className="border-t border-slate-200 p-6">
+                  <p className="text-sm font-semibold mb-4 text-slate-900">What&apos;s included:</p>
                   <ul className="space-y-3">
                     {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start gap-3 text-sm">
+                      <li key={featureIndex} className="flex items-start gap-3 text-sm text-slate-600">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
@@ -187,11 +187,11 @@ export default function PricingPage() {
                   </ul>
                   
                   {plan.limitations.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-[rgb(var(--border))]">
-                      <p className="text-xs text-[rgb(var(--muted-foreground))] mb-2">Limitations:</p>
+                    <div className="mt-4 pt-4 border-t border-slate-100">
+                      <p className="text-xs text-slate-500 mb-2">Limitations:</p>
                       <ul className="space-y-1">
                         {plan.limitations.map((limitation, limitIndex) => (
-                          <li key={limitIndex} className="flex items-start gap-2 text-xs text-[rgb(var(--muted-foreground))]">
+                          <li key={limitIndex} className="flex items-start gap-2 text-xs text-slate-400">
                             <X className="w-3 h-3 mt-0.5 flex-shrink-0" />
                             {limitation}
                           </li>
@@ -206,7 +206,7 @@ export default function PricingPage() {
 
           {/* Guarantee */}
           <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-500">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-600">
               <Check className="w-5 h-5" />
               <span className="text-sm font-medium">30-day money-back guarantee on all paid plans</span>
             </div>
@@ -214,24 +214,20 @@ export default function PricingPage() {
 
           {/* FAQ */}
           <div className="mt-20 max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-center mb-8 text-slate-900">Frequently Asked Questions</h2>
             <div className="space-y-4">
               {[
                 {
                   q: 'Can I cancel my subscription anytime?',
-                  a: 'Yes! You can cancel your subscription at any time from your account settings. Your access will continue until the end of your billing period with no additional charges.'
-                },
-                {
-                  q: 'Is there a free trial for Pro?',
-                  a: 'Yes, we offer a 7-day free trial for Pro. No credit card required to start. You can upgrade anytime during or after the trial.'
+                  a: 'Yes! You can cancel your subscription at any time. Your access will continue until the end of your billing period with no additional charges.'
                 },
                 {
                   q: 'What payment methods do you accept?',
-                  a: 'We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and Apple Pay through our secure payment partner Gumroad.'
+                  a: 'We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and Apple Pay through our secure payment partner.'
                 },
                 {
                   q: 'Do you offer refunds?',
-                  a: 'Yes, we offer a 30-day money-back guarantee. If you are not satisfied with your purchase, contact us for a full refund, no questions asked.'
+                  a: 'Yes, we offer a 30-day money-back guarantee. If you are not satisfied with your purchase, contact us for a full refund.'
                 },
                 {
                   q: 'Can I switch between plans?',
@@ -242,9 +238,9 @@ export default function PricingPage() {
                   a: 'Yes! We offer 50% off for students and non-profit organizations. Contact us with proof of eligibility to receive your discount code.'
                 }
               ].map((faq, index) => (
-                <div key={index} className="card p-5">
-                  <h3 className="font-semibold mb-2">{faq.q}</h3>
-                  <p className="text-sm text-[rgb(var(--muted-foreground))]">{faq.a}</p>
+                <div key={index} className="bg-white rounded-xl border border-slate-200 p-5">
+                  <h3 className="font-semibold mb-2 text-slate-900">{faq.q}</h3>
+                  <p className="text-sm text-slate-600">{faq.a}</p>
                 </div>
               ))}
             </div>
