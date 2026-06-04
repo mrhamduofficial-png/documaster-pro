@@ -19,6 +19,7 @@ const toolCategories = [
       { name: 'PDF Split', href: '/tools/pdf-split', icon: FileX, description: 'Split PDF into separate pages' },
       { name: 'PDF Compress', href: '/tools/pdf-compress', icon: FileArchive, description: 'Reduce PDF file size' },
       { name: 'Text to PDF', href: '/tools/text-to-pdf', icon: FileText, description: 'Convert text to PDF document' },
+      { name: 'Word to PDF', href: '/tools/word-to-pdf', icon: FileText, description: 'Convert documents to PDF' },
     ]
   },
   {
@@ -49,6 +50,7 @@ const toolCategories = [
     color: 'from-purple-500 to-pink-500',
     tools: [
       { name: 'Image Compressor', href: '/tools/image-compress', icon: Minimize2, description: 'Reduce image size without quality loss' },
+      { name: 'Image Converter', href: '/tools/image-converter', icon: Image, description: 'Convert images between formats' },
       { name: 'QR Code Generator', href: '/tools/qr-generator', icon: QrCode, description: 'Create custom QR codes' },
     ]
   },
