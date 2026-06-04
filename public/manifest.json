@@ -1,11 +1,11 @@
 {
-  "name": "DocuMaster - Document Management Platform",
-  "short_name": "DocuMaster",
-  "description": "Free PDF tools, document conversion, OCR scanning, and digital signatures",
+  "name": "DocuSprint - Free Online PDF Converter & Web Utility Tools",
+  "short_name": "DocuSprint",
+  "description": "Free PDF tools, image compression, QR generator, word counter, and document conversion. Fast, secure, and no signup required.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -23,22 +23,28 @@
   "screenshots": [],
   "shortcuts": [
     {
-      "name": "PDF Merge",
-      "short_name": "Merge",
-      "url": "/tools/pdf-merge",
-      "description": "Merge multiple PDF files"
+      "name": "Image Compressor",
+      "short_name": "Compress",
+      "url": "/tools/image-compress",
+      "description": "Reduce image file size"
     },
     {
-      "name": "PDF Split",
-      "short_name": "Split",
-      "url": "/tools/pdf-split",
-      "description": "Split PDF into pages"
+      "name": "PDF to Word",
+      "short_name": "PDF2Word",
+      "url": "/tools/pdf-to-word",
+      "description": "Convert PDF to Word"
     },
     {
-      "name": "OCR Scanner",
-      "short_name": "OCR",
-      "url": "/tools/ocr-scanner",
-      "description": "Extract text from images"
+      "name": "QR Generator",
+      "short_name": "QR",
+      "url": "/tools/qr-generator",
+      "description": "Create custom QR codes"
+    },
+    {
+      "name": "Word Counter",
+      "short_name": "Counter",
+      "url": "/tools/word-counter",
+      "description": "Count words and characters"
     }
   ],
   "lang": "en",
